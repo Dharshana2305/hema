@@ -1,0 +1,4856 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="referrer" content="no-referrer">
+    <title id="page-title">Are You Ready For A Surprise? 🎂✨</title>
+
+    <!-- Google Fonts for Cute, Rounded, and Playful Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&amp;family=Outfit:wght@100..900&amp;family=Pacifico&amp;family=Quicksand:wght@300..700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@800&amp;family=La+Belle+Aurore&amp;family=Caveat:wght@600;700&amp;display=swap" rel="stylesheet">
+
+    <!-- GSAP Script Library for Staggered Letter Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <!-- Canvas Confetti Library via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Font Awesome 6.4.0 CDN for Modern Vector Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           1. DESIGN SYSTEM & ROOT VARIABLES
+           ========================================================================== */
+        :root {
+            --bg-lock: linear-gradient(135deg, #a5cff9 0%, #6fa6e5 100%);
+            --bg-surprise: linear-gradient(135deg, #f7f9fc 0%, #eef3f7 100%);
+            --blue-primary: #3a86ca;
+            --blue-hover: #2a6fa8;
+            --pink-primary: #ff6b81;
+            --pink-hover: #ff4757;
+            --white-polaroid: #ffffff;
+            --font-bubbly: 'Fredoka', 'Quicksand', sans-serif;
+            --font-title: 'Fredoka', 'Outfit', sans-serif;
+            --font-cursive: 'Pacifico', cursive;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden !important;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-bubbly);
+            background: #fbf9f5 url('./assets/bg.jpeg') no-repeat center center / cover;
+            color: #ffffff;
+            min-height: 100vh;
+            min-height: 100dvh;
+            width: 100%;
+            max-width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden !important;
+            transition: background 0.8s ease-in-out;
+        }
+
+        /* Screen States - Universal Responsive Container */
+        .screen {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: clamp(12px, 3vh, 24px) clamp(12px, 3vw, 24px);
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.96);
+            transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        /* ==========================================================================
+           2. LOCK SCREEN (PAGE 1) - ROMANTIC MINIMALIST PASSCODE
+           ========================================================================== */
+        #screen-lock {
+            background: #fbf9f5 url('./assets/bg.jpeg') no-repeat center center / cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .vintage-lock-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: min(92vw, 360px);
+            margin: auto;
+            animation: fadeInLock 0.8s ease-out;
+        }
+
+        @keyframes fadeInLock {
+            0% {
+                opacity: 0;
+                transform: translateY(15px) scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .heart-lock-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: clamp(2px, 0.8vh, 8px);
+            cursor: default;
+        }
+
+        .heart-lock-svg {
+            width: clamp(75px, 16vw, 120px);
+            height: clamp(75px, 16vw, 120px);
+            filter: drop-shadow(0 8px 20px rgba(15, 35, 75, 0.25));
+            transition: transform 0.3s ease;
+        }
+
+        .heart-lock-svg:hover {
+            transform: scale(1.04);
+        }
+
+        .lock-shackle {
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: 38px 48px;
+        }
+
+        .lock-key {
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: 12px 12px;
+        }
+
+        .heart-lock-wrapper.unlocked .lock-shackle {
+            transform: translateY(-8px) rotate(-18deg);
+        }
+
+        .heart-lock-wrapper.unlocked .lock-key {
+            transform: translate(62px, -4px) rotate(85deg);
+        }
+
+        .lock-meta-text {
+            font-family: 'La Belle Aurore', 'Pacifico', cursive;
+            color: #172554;
+            font-size: clamp(14px, 3.6vw, 18px);
+            line-height: 1.2;
+            margin-bottom: clamp(2px, 0.6vh, 6px);
+            letter-spacing: 0.3px;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+        }
+
+        .lock-meta-text .meta-line {
+            font-weight: 700;
+        }
+
+        .lock-meta-text .meta-hint {
+            font-size: clamp(11px, 2.8vw, 13px);
+            font-style: italic;
+            opacity: 0.85;
+            margin-top: 1px;
+            color: #1e40af;
+        }
+
+        .passcode-dots-row {
+            display: flex;
+            gap: clamp(8px, 2vw, 12px);
+            justify-content: center;
+            align-items: center;
+            margin: clamp(4px, 0.8vh, 10px) 0 clamp(8px, 1.4vh, 14px) 0;
+        }
+
+        .p-dot {
+            width: clamp(9px, 2.2vw, 12px);
+            height: clamp(9px, 2.2vw, 12px);
+            border-radius: 50%;
+            border: 2px solid #1e40af;
+            background: transparent;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .p-dot.filled {
+            background: #2563eb;
+            border-color: #1d4ed8;
+            transform: scale(1.2);
+            box-shadow: 0 0 8px rgba(37, 99, 235, 0.6);
+        }
+
+        .p-dot.error {
+            border-color: #dc2626 !important;
+            background: #dc2626 !important;
+            box-shadow: 0 0 8px rgba(220, 38, 38, 0.6) !important;
+        }
+
+        .p-dot.success {
+            border-color: #059669 !important;
+            background: #059669 !important;
+            transform: scale(1.25);
+            box-shadow: 0 0 8px rgba(5, 150, 105, 0.6) !important;
+        }
+
+        .passcode-compact-keypad {
+            display: grid;
+            grid-template-columns: repeat(3, clamp(52px, 16vw, 66px));
+            grid-gap: clamp(6px, 1.8vw, 10px);
+            justify-content: center;
+        }
+
+        .p-key {
+            width: clamp(52px, 16vw, 66px);
+            height: clamp(38px, 9.5vw, 46px);
+            background: rgba(240, 248, 255, 0.78);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            border-radius: clamp(8px, 2vw, 12px);
+            color: #1e3a8a;
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(16px, 4.2vw, 20px);
+            font-weight: 700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            transition: all 0.14s ease;
+            outline: none;
+            padding: 0;
+        }
+
+        .p-key:hover {
+            background: rgba(224, 242, 254, 0.95);
+            border-color: rgba(37, 99, 235, 0.6);
+            color: #0284c7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+        }
+
+        .p-key:active {
+            transform: translateY(1px) scale(0.95);
+            background: rgba(186, 230, 253, 0.95);
+        }
+
+        .p-key.p-key-backspace {
+            font-size: clamp(13px, 3.4vw, 16px);
+            color: #1e40af;
+        }
+
+        .p-key-placeholder {
+            width: clamp(52px, 16vw, 66px);
+            height: clamp(38px, 9.5vw, 46px);
+            visibility: hidden;
+        }
+
+        @keyframes shakeLock {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            15%,
+            45%,
+            75% {
+                transform: translateX(-6px);
+            }
+
+            30%,
+            60%,
+            90% {
+                transform: translateX(6px);
+            }
+        }
+
+        .shake {
+            animation: shakeLock 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+
+        /* ==========================================================================
+           3. HAPPY DANCE SCREEN (PAGE 1.5)
+           ========================================================================== */
+        #screen-dance {
+            background: url('./assets/bg2.jpg') no-repeat center center / cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dance-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: min(92vw, 420px);
+            margin: auto;
+            animation: danceContentEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes danceContentEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .dance-title {
+            font-family: var(--font-bubbly), var(--font-title);
+            font-size: clamp(22px, 6vw, 38px);
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 4px 18px rgba(15, 55, 110, 0.4), 0 2px 4px rgba(0, 0, 0, 0.15);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            line-height: 1.2;
+            animation: bounceText 1.2s ease-in-out infinite alternate;
+        }
+
+        .dance-subtitle {
+            font-family: var(--font-bubbly);
+            font-size: clamp(13px, 3.6vw, 17px);
+            color: #ffffff;
+            opacity: 0.95;
+            text-shadow: 0 2px 8px rgba(15, 55, 110, 0.35);
+            font-weight: 600;
+            margin-bottom: clamp(14px, 2.5vh, 24px);
+            text-align: center;
+        }
+
+        .dance-gif-box {
+            width: min(220px, 58vw);
+            height: min(220px, 58vw);
+            max-height: 34vh;
+            border-radius: clamp(18px, 5vw, 26px);
+            background: #ffffff;
+            box-shadow: 0 14px 35px rgba(15, 45, 95, 0.18), 0 4px 12px rgba(0, 0, 0, 0.06);
+            border: 4px solid rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: clamp(16px, 3vh, 26px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dance-gif-box:hover {
+            transform: scale(1.04);
+            box-shadow: 0 18px 45px rgba(15, 45, 95, 0.25);
+        }
+
+        .dance-gif-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 16px;
+        }
+
+        .btn-dance-next {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            padding: clamp(11px, 2.6vw, 14px) clamp(32px, 8vw, 46px);
+            font-size: clamp(14px, 3.6vw, 17px);
+            font-family: var(--font-title);
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(29, 78, 216, 0.4);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+
+        .btn-dance-next:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            transform: translateY(-2px) scale(1.06);
+            box-shadow: 0 12px 30px rgba(29, 78, 216, 0.55);
+            border-color: #ffffff;
+        }
+
+        .btn-dance-next:active {
+            transform: translateY(1px) scale(0.96);
+        }
+
+        /* ==========================================================================
+           4. SURPRISE SCREEN (PAGE 2)
+           ========================================================================== */
+        #screen-surprise {
+            background: url('./assets/bg3.jpg') no-repeat center center / cover;
+            color: var(--blue-primary);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .surprise-header {
+            position: relative;
+            margin-bottom: clamp(12px, 2.5vh, 25px);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .surprise-title {
+            font-family: var(--font-title);
+            font-size: clamp(22px, 5.8vw, 38px);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .title-heart {
+            width: clamp(18px, 4.5vw, 24px);
+            height: auto;
+            animation: pulseHeart 1.5s ease-in-out infinite alternate;
+        }
+
+        .gif-container {
+            width: min(220px, 58vw);
+            height: min(220px, 58vw);
+            max-height: 33vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: clamp(18px, 3vh, 32px);
+            border-radius: 20px;
+            background: #ffffff;
+            box-shadow: 0 10px 25px rgba(33, 123, 197, 0.1);
+            padding: 12px;
+            border: 3px solid rgba(33, 123, 197, 0.18);
+            position: relative;
+        }
+
+        .gif-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .speech-bubble {
+            position: absolute;
+            top: -42px;
+            background: var(--pink-primary);
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 18px;
+            font-size: clamp(12px, 3.2vw, 14px);
+            font-weight: 600;
+            box-shadow: 0 8px 16px rgba(255, 107, 129, 0.25);
+            opacity: 0;
+            transform: translateY(10px) scale(0.9);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .speech-bubble.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px 6px 0;
+            border-style: solid;
+            border-color: var(--pink-primary) transparent;
+            display: block;
+            width: 0;
+        }
+
+        .buttons-group {
+            display: flex;
+            gap: clamp(16px, 5vw, 36px);
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 380px;
+            min-height: 56px;
+            position: relative;
+        }
+
+        .btn-proposal {
+            padding: clamp(10px, 2.4vw, 13px) clamp(22px, 6vw, 38px);
+            font-size: clamp(15px, 4vw, 19px);
+            font-family: var(--font-title);
+            font-weight: 700;
+            border: none;
+            border-radius: 28px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-yes {
+            background-color: var(--blue-primary);
+            color: #ffffff;
+            z-index: 5;
+        }
+
+        .btn-yes:hover {
+            background-color: var(--blue-hover);
+            transform: scale(1.08);
+            box-shadow: 0 8px 25px rgba(33, 123, 197, 0.3);
+        }
+
+        .btn-no {
+            background-color: #ffffff;
+            color: var(--blue-primary);
+            border: 2px solid var(--blue-primary);
+            position: relative;
+            z-index: 4;
+        }
+
+        .btn-no:hover {
+            background-color: rgba(33, 123, 197, 0.05);
+        }
+
+        /* ==========================================================================
+           5. GIFTS SCREEN (PAGE 2.2)
+           ========================================================================== */
+        #screen-gifts {
+            background: var(--bg-surprise);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .keypad-container {
+            width: 100%;
+            max-width: min(94vw, 680px);
+            text-align: center;
+            color: var(--blue-primary);
+            margin: auto;
+        }
+
+        .gifts-header-title {
+            font-family: var(--font-title);
+            font-size: clamp(26px, 6.5vw, 44px);
+            font-weight: 800;
+            text-align: center;
+            text-transform: uppercase;
+            color: var(--blue-primary) !important;
+            letter-spacing: 1.5px;
+            margin-bottom: clamp(12px, 2.5vh, 24px);
+        }
+
+        .gifts-grid {
+            display: flex;
+            gap: clamp(10px, 3vw, 32px);
+            justify-content: center;
+            align-items: center;
+            margin: clamp(12px, 3vh, 32px) 0;
+            flex-wrap: nowrap;
+            width: 100%;
+        }
+
+        .gift-wrapper {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            flex: 0 1 auto;
+        }
+
+        .gift-wrapper:hover {
+            transform: scale(1.12) rotate(2deg);
+        }
+
+        .gift-wrapper img {
+            width: clamp(88px, 26vw, 180px);
+            height: clamp(88px, 26vw, 180px);
+            max-height: 28vh;
+            object-fit: contain;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .gift-wrapper.open img {
+            transform: scale(1.05);
+        }
+
+        .gift-instruction-text {
+            font-family: var(--font-bubbly);
+            font-size: clamp(13px, 3.4vw, 17px);
+            margin-top: clamp(12px, 2.5vh, 24px);
+            color: #5a6e85;
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           6. 3D CAKE SCREEN (PAGE 2.5)
+           ========================================================================== */
+        #screen-cake {
+            background: radial-gradient(circle at 50% 40%, #1e40af 0%, #172554 60%, #091a36 100%) !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cake-scene-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 440px;
+            margin: auto;
+            animation: cakeSceneEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes cakeSceneEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .btn-cake-back-top {
+            position: absolute;
+            top: clamp(12px, 2.5vh, 22px);
+            left: clamp(12px, 3vw, 22px);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1.5px solid rgba(147, 197, 253, 0.4);
+            padding: clamp(6px, 1.5vw, 9px) clamp(12px, 3vw, 18px);
+            border-radius: 20px;
+            color: #93c5fd;
+            font-family: var(--font-bubbly), 'Fredoka', 'Outfit', sans-serif;
+            font-size: clamp(12px, 2.8vw, 14px);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 30;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-cake-back-top:hover {
+            background: rgba(30, 58, 138, 0.7);
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .cake-stage-wrapper {
+            position: relative;
+            width: 260px;
+            height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: clamp(4px, 1.2vh, 12px) auto clamp(8px, 1.8vh, 18px) auto;
+            transform: scale(clamp(0.72, 0.2 + 0.8 * (100vw / 480), 1));
+            transform-origin: center center;
+            user-select: none;
+        }
+
+        .cake {
+            position: absolute;
+            width: 250px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            margin-top: -70px;
+            margin-left: -125px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .cake:hover {
+            transform: scale(1.03);
+        }
+
+        .cake>* {
+            position: absolute;
+        }
+
+        .plate {
+            width: 270px;
+            height: 110px;
+            position: absolute;
+            bottom: -10px;
+            left: -10px;
+            background-color: #e2e8f0;
+            border-radius: 50%;
+            box-shadow:
+                0 2px 0 #94a3b8,
+                0 4px 0 #64748b,
+                0 8px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .layer {
+            position: absolute;
+            display: block;
+            width: 250px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #553c13;
+            box-shadow:
+                0 2px 0px #6a4b18,
+                0 4px 0px #33240b,
+                0 6px 0px #32230b,
+                0 8px 0px #31230b,
+                0 10px 0px #30220b,
+                0 12px 0px #2f220b,
+                0 14px 0px #2f210a,
+                0 16px 0px #2e200a,
+                0 18px 0px #2d200a,
+                0 20px 0px #2c1f0a,
+                0 22px 0px #2b1f0a,
+                0 24px 0px #2a1e09,
+                0 26px 0px #2a1d09,
+                0 28px 0px #291d09,
+                0 30px 0px #281c09;
+        }
+
+        .layer-top {
+            top: 0px;
+        }
+
+        .layer-middle {
+            top: 33px;
+        }
+
+        .layer-bottom {
+            top: 66px;
+        }
+
+        .icing {
+            top: 2px;
+            left: 5px;
+            background-color: #f0e4d0;
+            width: 240px;
+            height: 90px;
+            border-radius: 50%;
+        }
+
+        .icing:before {
+            content: "";
+            position: absolute;
+            top: 4px;
+            right: 5px;
+            bottom: 6px;
+            left: 5px;
+            background-color: #f4ebdc;
+            box-shadow: 0 0 4px #f6efe3, 0 0 4px #f6efe3, 0 0 4px #f6efe3;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .drip {
+            display: block;
+            width: 50px;
+            height: 60px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            background-color: #f0e4d0;
+        }
+
+        .drip1 {
+            top: 53px;
+            left: 5px;
+            transform: skewY(15deg);
+            height: 48px;
+            width: 40px;
+        }
+
+        .drip2 {
+            top: 69px;
+            left: 181px;
+            transform: skewY(-15deg);
+        }
+
+        .drip3 {
+            top: 54px;
+            left: 90px;
+            width: 80px;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+        }
+
+        .candle {
+            background-color: #7B020B;
+            width: 16px;
+            height: 50px;
+            border-radius: 8px / 4px;
+            top: -20px;
+            left: 50%;
+            margin-left: -8px;
+            z-index: 10;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .candle:hover {
+            transform: scale(1.1);
+        }
+
+        .candle:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 16px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #ad030f;
+        }
+
+        .flame {
+            position: absolute;
+            background-color: orange;
+            width: 15px;
+            height: 35px;
+            border-radius: 10px 10px 10px 10px / 25px 25px 10px 10px;
+            top: -34px;
+            left: 50%;
+            margin-left: -7.5px;
+            z-index: 10;
+            box-shadow:
+                0 0 10px rgba(255, 165, 0, 0.5),
+                0 0 20px rgba(255, 165, 0, 0.5),
+                0 0 60px rgba(255, 165, 0, 0.5),
+                0 0 80px rgba(255, 165, 0, 0.5);
+            transform-origin: 50% 90%;
+            animation: flicker 1s ease-in-out alternate infinite;
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        @keyframes flicker {
+
+            0%,
+            100% {
+                transform: skewX(5deg);
+                box-shadow: 0 0 10px rgba(255, 165, 0, 0.5), 0 0 20px rgba(255, 165, 0, 0.5), 0 0 60px rgba(255, 165, 0, 0.5);
+            }
+
+            50% {
+                transform: skewX(-7deg);
+                box-shadow: 0 0 10px rgba(255, 165, 0, 0.3), 0 0 20px rgba(255, 165, 0, 0.3), 0 0 60px rgba(255, 165, 0, 0.3);
+            }
+        }
+
+        .candle.extinguished .flame {
+            opacity: 0 !important;
+            transform: scale(0) !important;
+            animation: none !important;
+        }
+
+        .candle-smoke-puff {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .candle.extinguished .candle-smoke-puff {
+            animation: smokePuffAnim 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes smokePuffAnim {
+            0% {
+                opacity: 0.85;
+                transform: translate(-50%, 0) scale(0.6);
+            }
+
+            50% {
+                opacity: 0.45;
+                transform: translate(-50%, -20px) scale(1.4);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -45px) scale(2.2);
+            }
+        }
+
+        .cake-text-block {
+            color: #dbeafe;
+            font-family: var(--font-bubbly), 'Fredoka', 'Quicksand', sans-serif;
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        .cake-text-block h1 {
+            font-size: clamp(24px, 6vw, 38px);
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 16px rgba(59, 130, 246, 0.7);
+        }
+
+        .cake-text-block p {
+            font-size: clamp(17px, 4.5vw, 26px);
+            color: #93c5fd;
+            font-weight: 600;
+            margin: 2px 0 12px 0;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            font-family: var(--font-cursive), 'Pacifico', cursive;
+        }
+
+        .cake-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 4px;
+            flex-wrap: wrap;
+            z-index: 20;
+        }
+
+        .btn-blow-candles {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: #ffffff;
+            padding: clamp(10px, 2.4vw, 13px) clamp(22px, 5vw, 32px);
+            font-size: clamp(13px, 3.2vw, 15px);
+            font-family: var(--font-bubbly), 'Fredoka', 'Outfit', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.45);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+
+        .btn-blow-candles:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.65);
+        }
+
+        .btn-cake-replay {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1e40af;
+            padding: clamp(10px, 2.2vw, 12px) clamp(18px, 4vw, 26px);
+            font-size: clamp(12px, 3vw, 14px);
+            font-family: var(--font-bubbly), 'Fredoka', 'Outfit', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            border: 2px solid #3b82f6;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+
+        .btn-cake-replay:hover {
+            background: #ffffff;
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        .btn-cake-action {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: #ffffff;
+            padding: clamp(10px, 2.2vw, 12px) clamp(20px, 4.5vw, 28px);
+            font-size: clamp(12px, 3vw, 14px);
+            font-family: var(--font-bubbly), 'Fredoka', 'Outfit', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 22px rgba(37, 99, 235, 0.45);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+
+        .btn-cake-action:hover {
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        /* ==========================================================================
+           7. CELEBRATION SCRATCH SCREEN (PAGE 3)
+           ========================================================================== */
+        #screen-celebration {
+            background: #091a36 !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: clamp(20px, 4vh, 40px) 12px;
+        }
+
+        .celebration-bg-layer {
+            position: absolute;
+            inset: 0;
+            background-image: url('./assets/bgkiss.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(8px);
+            transform: scale(1.08);
+            opacity: 0.85;
+            z-index: 0;
+        }
+
+        .celebration-bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(14, 30, 60, 0.45) 0%, rgba(7, 18, 38, 0.75) 100%);
+            z-index: 1;
+        }
+
+        .btn-celebration-back {
+            position: absolute;
+            top: clamp(12px, 2.5vh, 22px);
+            left: clamp(12px, 3vw, 22px);
+            background: rgba(9, 26, 54, 0.85);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            padding: clamp(7px, 1.8vw, 10px) clamp(14px, 3vw, 22px);
+            border-radius: 20px;
+            color: white;
+            font-family: var(--font-bubbly);
+            font-size: clamp(13px, 3vw, 15px);
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+            z-index: 30;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-celebration-back:hover {
+            transform: scale(1.05);
+            background: rgba(30, 58, 138, 0.9);
+        }
+
+        .celebration-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 960px;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: auto;
+        }
+
+        .celebration-main-title {
+            font-family: 'Plus Jakarta Sans', var(--font-title);
+            font-weight: 800;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: clamp(32px, 7.5vw, 68px);
+            margin-bottom: 6px;
+            line-height: 1;
+            color: #ffffff !important;
+            text-shadow: 0 4px 20px rgba(37, 99, 235, 0.5);
+            letter-spacing: clamp(-1px, 0.2vw, 0px);
+        }
+
+        .celebration-hint {
+            font-family: var(--font-bubbly);
+            font-size: clamp(13px, 3.2vw, 16px);
+            color: #93c5fd;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: clamp(18px, 3vh, 32px);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .polaroids-wrapper {
+            display: flex;
+            gap: clamp(16px, 3.5vw, 32px);
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: clamp(18px, 3vh, 35px);
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .p-card {
+            background: #FDFBF7 !important;
+            padding: 10px 10px 38px 10px !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
+            position: relative;
+            transition: all 0.3s ease !important;
+            width: clamp(190px, 72vw, 230px) !important;
+            border-radius: 4px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            margin: 0 auto;
+        }
+
+        .polaroid-photo {
+            position: relative !important;
+            width: 100% !important;
+            aspect-ratio: 1/1 !important;
+            background: #eaeaea !important;
+            border: 1px solid rgba(0, 0, 0, 0.06) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            overflow: hidden !important;
+            border-radius: 2px !important;
+            touch-action: none !important;
+            cursor: crosshair !important;
+        }
+
+        .scratch-canvas {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 10 !important;
+            border-radius: 2px !important;
+            cursor: crosshair !important;
+            transition: opacity 0.5s ease;
+        }
+
+        .scratch-canvas.revealed {
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        .ribbon {
+            position: absolute !important;
+            width: 65px !important;
+            height: auto !important;
+            z-index: 15 !important;
+            pointer-events: none !important;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25)) !important;
+            transform: translateX(-50%) !important;
+        }
+
+        .remove-bg {
+            z-index: 16 !important;
+            mix-blend-mode: multiply !important;
+        }
+
+        .p-card-left .ribbon {
+            top: -20px !important;
+            left: 50% !important;
+            transform: translateX(-50%) rotate(-5deg) !important;
+        }
+
+        .p-card-middle .ribbon {
+            top: -22px !important;
+            left: 50% !important;
+            transform: translateX(-50%) rotate(0deg) !important;
+        }
+
+        .p-card-right .ribbon {
+            bottom: -18px !important;
+            top: auto !important;
+            left: 50% !important;
+            transform: translateX(-50%) rotate(5deg) !important;
+        }
+
+        .p-card-left {
+            transform: rotate(-3deg);
+            opacity: 0;
+        }
+
+        .p-card-left:hover {
+            transform: rotate(0deg) scale(1.06) !important;
+            z-index: 25 !important;
+        }
+
+        .p-card-middle {
+            transform: rotate(2deg);
+            opacity: 0;
+        }
+
+        .p-card-middle:hover {
+            transform: rotate(0deg) scale(1.06) !important;
+            z-index: 25 !important;
+        }
+
+        .p-card-right {
+            transform: rotate(-4deg);
+            opacity: 0;
+        }
+
+        .p-card-right:hover {
+            transform: rotate(0deg) scale(1.06) !important;
+            z-index: 25 !important;
+        }
+
+        .celebration-bottom-accents {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(12px, 3vw, 24px);
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stamp-btn {
+            width: clamp(65px, 16vw, 80px);
+            height: clamp(65px, 16vw, 80px);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            border: 2px dashed rgba(37, 99, 235, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-12deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            z-index: 15;
+            cursor: pointer;
+            transition: transform 0.25s ease;
+        }
+
+        .stamp-btn:hover {
+            transform: rotate(-6deg) scale(1.08);
+        }
+
+        .stamp-text-inner {
+            color: #1e40af;
+            font-size: clamp(9px, 2.2vw, 11px);
+            font-weight: bold;
+            font-family: var(--font-bubbly);
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .together-script {
+            font-family: 'La Belle Aurore', var(--font-cursive);
+            font-size: clamp(36px, 8vw, 60px);
+            color: white;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .letter {
+            display: inline-block;
+            opacity: 0;
+        }
+
+        /* ==========================================================================
+           8. DIGITAL ENVELOPE & UNFOLDING LOVE LETTER MODAL (GIFT 3)
+           ========================================================================== */
+        #overlay-letter {
+            background: #0f59b2 !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            z-index: 999999 !important;
+            overflow: hidden;
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        #overlay-letter.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .letter-polaroid {
+            position: absolute;
+            background: #ffffff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .letter-polaroid:hover {
+            transform: scale(1.12) rotate(0deg) !important;
+            z-index: 50 !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45) !important;
+        }
+
+        .sticker-float {
+            position: absolute;
+            opacity: 0.85;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), filter 0.3s ease;
+        }
+
+        .sticker-float:hover {
+            transform: scale(1.2) rotate(-6deg) !important;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25)) !important;
+        }
+
+        .envelope-interactive {
+            position: relative;
+            max-width: min(85vw, 520px);
+            max-height: min(65vh, 420px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .envelope-interactive:hover {
+            transform: scale(1.04) translateY(-4px);
+        }
+
+        .envelope-interactive img {
+            max-width: 100%;
+            max-height: min(60vh, 390px);
+            object-fit: contain;
+            filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.4));
+            display: block;
+            transition: filter 0.3s ease;
+        }
+
+        .envelope-interactive:hover img {
+            filter: drop-shadow(0 20px 45px rgba(37, 99, 235, 0.5));
+        }
+
+        .letter-open-hint {
+            position: absolute;
+            bottom: -18px;
+            background: rgba(255, 255, 255, 0.96);
+            color: #1e40af;
+            font-family: var(--font-bubbly), 'Fredoka', sans-serif;
+            font-size: clamp(12px, 3.2vw, 15px);
+            font-weight: 700;
+            padding: 7px 20px;
+            border-radius: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: bounceLetterHint 1.2s ease-in-out infinite alternate;
+            pointer-events: none;
+            white-space: nowrap;
+            border: 2px solid #60a5fa;
+            letter-spacing: 0.3px;
+        }
+
+        @keyframes bounceLetterHint {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .btn-close-envelope {
+            position: absolute;
+            bottom: clamp(16px, 3.5vh, 30px);
+            right: clamp(16px, 3.5vw, 30px);
+            background: #1c1c1c !important;
+            border: 2.5px solid #ffffff !important;
+            padding: clamp(8px, 2vw, 12px) clamp(20px, 4.5vw, 32px) !important;
+            border-radius: 20px !important;
+            color: #ffffff !important;
+            font-family: var(--font-bubbly) !important;
+            font-size: clamp(14px, 3.5vw, 18px) !important;
+            font-weight: 800 !important;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+            text-transform: uppercase;
+            z-index: 1100;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-close-envelope:hover {
+            transform: scale(1.05);
+            background: #333333 !important;
+        }
+
+        /* Fullscreen Unfolded Love Letter Modal */
+        .love-letter-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(8, 20, 48, 0.84);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: clamp(12px, 3vh, 24px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .love-letter-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .love-letter-paper {
+            position: relative;
+            width: min(92vw, 500px);
+            max-height: min(88vh, 620px);
+            background: #fdfbf7;
+            background-image:
+                radial-gradient(#eedfc8 1px, transparent 1px),
+                linear-gradient(to bottom, transparent calc(100% - 1px), rgba(195, 175, 145, 0.25) 100%);
+            background-size: 20px 20px, 100% 30px;
+            border-radius: 16px;
+            padding: clamp(20px, 4.5vw, 36px);
+            box-shadow:
+                0 25px 50px -10px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(215, 195, 165, 0.6),
+                inset 0 0 40px rgba(235, 220, 190, 0.4);
+            border: 2px solid #ede3d2;
+            transform: scale(0.6) translateY(50px) rotate(-4deg);
+            transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: #2c1f1a;
+            overflow-y: auto;
+        }
+
+        .love-letter-modal.active .love-letter-paper {
+            transform: scale(1) translateY(0) rotate(0deg);
+        }
+
+        .letter-wax-seal {
+            position: absolute;
+            bottom: 14px;
+            right: 18px;
+            width: clamp(42px, 10vw, 54px);
+            height: clamp(42px, 10vw, 54px);
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+            transform: rotate(-10deg);
+        }
+
+        .letter-heading {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(18px, 4.5vw, 25px);
+            color: #1e3a8a;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px dashed rgba(59, 130, 246, 0.3);
+            padding-bottom: 8px;
+        }
+
+        .letter-body {
+            font-family: 'Caveat', 'La Belle Aurore', cursive;
+            font-size: clamp(17px, 3.8vw, 23px);
+            line-height: 1.55;
+            color: #2b1f1a;
+            margin-bottom: 14px;
+            letter-spacing: 0.3px;
+            font-weight: 600;
+        }
+
+        .letter-sign {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(15px, 3.4vw, 19px);
+            color: #2563eb;
+            text-align: right;
+            margin-top: 12px;
+            padding-right: clamp(20px, 6vw, 55px);
+        }
+
+        .btn-close-letter {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(30, 58, 138, 0.1);
+            border: none;
+            color: #1e3a8a;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .btn-close-letter:hover {
+            background: #1e3a8a;
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        /* Floating polaroids responsive handling */
+        @media (min-width: 851px) and (max-width: 1150px) {
+            .letter-polaroid {
+                width: 110px !important;
+            }
+
+            .letter-polaroid:nth-of-type(1) {
+                left: 2% !important;
+                top: 22% !important;
+            }
+
+            .letter-polaroid:nth-of-type(2) {
+                left: 3% !important;
+                bottom: 16% !important;
+            }
+
+            .letter-polaroid:nth-of-type(3) {
+                right: 2% !important;
+                top: 18% !important;
+            }
+
+            .sticker-float {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .letter-polaroid {
+                display: none !important;
+            }
+
+            .sticker-float {
+                display: none !important;
+            }
+        }
+
+        /* Keyframe Utilities */
+        @keyframes pulseHeart {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.2) rotate(4deg);
+            }
+        }
+
+        @keyframes bounceText {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-7px);
+            }
+        }
+
+        /* ==========================================================================
+           8.5 POST 3 GIFTS: ALL GIFTS UNLOCKED MILESTONE BANNER
+           ========================================================================== */
+        #screen-gifts {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #screen-gifts .keypad-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            max-width: 520px;
+            margin: auto;
+        }
+
+        .all-gifts-unlocked-card {
+            margin: clamp(16px, 3vh, 26px) auto 0 auto !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 12px;
+            animation: bounceInUnlocked 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 20;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        @keyframes bounceInUnlocked {
+            0% {
+                opacity: 0;
+                transform: scale(0.6) translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .unlocked-sparkle-badge {
+            background-color: #f43f5e;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: clamp(12px, 3.2vw, 14px);
+            padding: 6px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.28);
+            letter-spacing: 0.5px;
+            animation: pulseBadge 1.8s infinite alternate;
+        }
+
+        @keyframes pulseBadge {
+            0% {
+                transform: scale(0.97);
+            }
+
+            100% {
+                transform: scale(1.03);
+            }
+        }
+
+        .btn-open-scrapbook {
+            background-color: var(--blue-primary);
+            color: #ffffff;
+            border: none;
+            padding: clamp(13px, 2.4vh, 17px) clamp(28px, 6vw, 40px);
+            font-family: var(--font-bubbly);
+            font-size: clamp(15px, 4.2vw, 19px);
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(33, 123, 197, 0.35);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin: 0 auto;
+        }
+
+        .btn-open-scrapbook:hover {
+            background-color: var(--blue-hover);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 28px rgba(33, 123, 197, 0.45);
+        }
+
+        /* ==========================================================================
+           8.6 SCREEN 4: AESTHETIC MEMORY SCRAPBOOK (CLEAN 2-COLUMN COLLAGE)
+           ========================================================================== */
+        #screen-scrapbook {
+            background: #faf6f0;
+            padding: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .scrapbook-header-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: clamp(10px, 2vh, 16px) clamp(16px, 3.5vw, 32px);
+            z-index: 40;
+            position: sticky;
+            top: 0;
+            background: rgba(250, 246, 240, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(226, 205, 186, 0.5);
+        }
+
+        .btn-scrapbook-back {
+            background: #ffffff;
+            border: 1.5px solid #dfcbb9;
+            color: #64402a;
+            font-family: var(--font-bubbly);
+            font-weight: 700;
+            font-size: clamp(12px, 2.5vw, 14px);
+            padding: 8px 16px;
+            border-radius: 24px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s ease;
+        }
+
+        .btn-scrapbook-back:hover {
+            background: #64402a;
+            color: #ffffff;
+            transform: translateX(-3px);
+        }
+
+        .scrapbook-header-titles {
+            text-align: center;
+        }
+
+        .scrapbook-main-title {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(22px, 4.5vw, 32px);
+            color: #db2777;
+            margin: 0;
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(219, 39, 119, 0.15);
+        }
+
+        .scrapbook-sub-title {
+            font-family: var(--font-bubbly);
+            font-size: clamp(11px, 2.2vw, 13px);
+            color: #8c6d58;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .scrapbook-music-quick-btn {
+            background: #121212;
+            color: #1ed760;
+            border: 1px solid #282828;
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(11px, 2.4vw, 13px);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.25s ease;
+        }
+
+        .scrapbook-music-quick-btn:hover {
+            background: #1ed760;
+            color: #121212;
+            transform: scale(1.05);
+        }
+
+        .mini-disk-icon {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .scrapbook-music-quick-btn.playing .mini-disk-icon {
+            animation: spinDisk 3s linear infinite;
+        }
+
+        /* 2-Column Responsive Layout Container */
+        .scrapbook-main-container {
+            position: relative;
+            width: 100%;
+            max-width: 960px;
+            margin: 20px auto 40px auto;
+            padding: clamp(15px, 3vw, 25px);
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            grid-gap: clamp(24px, 4vw, 44px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .scrapbook-main-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding-bottom: 70px;
+            }
+        }
+
+        /* Common Hover Lift for Scrapbook Items */
+        .scrapbook-item {
+            cursor: pointer;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+            user-select: none;
+        }
+
+        .scrapbook-item:hover {
+            transform: scale(1.04) translateY(-5px) !important;
+            z-index: 25 !important;
+            box-shadow: 0 16px 32px rgba(60, 35, 20, 0.18) !important;
+        }
+
+        .item-badge-hint {
+            position: absolute;
+            bottom: -10px;
+            right: 12px;
+            background: rgba(15, 23, 42, 0.88);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 12px;
+            letter-spacing: 0.3px;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: all 0.2s ease;
+            pointer-events: none;
+            z-index: 25;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .scrapbook-item:hover .item-badge-hint {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. Left Side: Stack of 4 "Scratch Me" Polaroids */
+        .scrapbook-left-stack-wrap {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .polaroids-stack-container {
+            position: relative;
+            width: clamp(260px, 42vw, 340px);
+            height: clamp(320px, 46vw, 400px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .scrapbook-polaroid-card {
+            position: absolute;
+            width: clamp(155px, 24vw, 190px);
+            background: #ffffff;
+            padding: 10px 10px 28px 10px;
+            border-radius: 4px;
+            box-shadow: 0 8px 24px rgba(70, 45, 30, 0.14), 0 2px 6px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .scrapbook-polaroid-card:nth-child(1) {
+            top: 4%;
+            left: 2%;
+            transform: rotate(-10deg);
+            z-index: 3;
+        }
+
+        .scrapbook-polaroid-card:nth-child(2) {
+            top: 2%;
+            left: 32%;
+            transform: rotate(6deg);
+            z-index: 4;
+        }
+
+        .scrapbook-polaroid-card:nth-child(3) {
+            bottom: 6%;
+            left: 5%;
+            transform: rotate(-5deg);
+            z-index: 5;
+        }
+
+        .scrapbook-polaroid-card:nth-child(4) {
+            bottom: 2%;
+            left: 35%;
+            transform: rotate(10deg);
+            z-index: 6;
+        }
+
+        .polaroid-inner-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: #f0e6dd;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .polaroid-inner-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .polaroid-scratch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #c88888;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(14px, 2.4vw, 17px);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            border-radius: 2px;
+            transition: opacity 0.4s ease;
+        }
+
+        .polaroid-scratch-overlay i {
+            font-size: 10px;
+            margin-top: 3px;
+            opacity: 0.92;
+            font-family: var(--font-bubbly);
+            font-style: normal;
+        }
+
+        .scrapbook-polaroid-card.revealed .polaroid-scratch-overlay {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .polaroid-tape-sticker {
+            position: absolute;
+            top: -9px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            width: 50px;
+            height: 16px;
+            background: rgba(255, 235, 175, 0.8);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px);
+            z-index: 7;
+        }
+
+        .polaroid-corner-flower {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.15));
+            z-index: 8;
+            pointer-events: none;
+        }
+
+        /* 2. Right Side: Memory Map Card + Spotify Card */
+        .scrapbook-right-col-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 22px;
+            width: 100%;
+        }
+
+        /* Memory Map Card */
+        .scrapbook-map-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 340px;
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 10px 25px rgba(60, 40, 30, 0.12);
+            transform: rotate(2deg);
+            z-index: 8;
+            border: 1px solid #eedfd5;
+        }
+
+        .map-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2px 4px 8px 4px;
+        }
+
+        .map-card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #4338ca;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .map-zoom-pills {
+            display: flex;
+            gap: 5px;
+        }
+
+        .map-pill-btn {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #e0e7ff;
+            color: #4338ca;
+            border: none;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .map-thumb-wrapper {
+            position: relative;
+            width: 100%;
+            height: 140px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .map-thumb-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .scrapbook-map-card:hover .map-thumb-img {
+            transform: scale(1.06);
+        }
+
+        .map-pin-avatar {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            padding: 3px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+            animation: floatPin 2s ease-in-out infinite alternate;
+        }
+
+        .map-pin-avatar img {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        @keyframes floatPin {
+            0% {
+                transform: translate(-50%, -50%) translateY(0);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) translateY(-5px);
+            }
+        }
+
+        /* Spotify Style Music Player Card */
+        .scrapbook-spotify-card {
+            width: 100%;
+            max-width: 340px;
+            background: #121212;
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 13px 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transform: rotate(-2deg);
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .spotify-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .spotify-logo-badge {
+            color: #1ed760;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .spotify-preview-pill {
+            background: #282828;
+            color: #b3b3b3;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .spotify-main-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .spotify-cover-disc-wrap {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            flex-shrink: 0;
+        }
+
+        .spotify-cover-art {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .spotify-vinyl-disc-peeking {
+            position: absolute;
+            top: 2px;
+            right: -12px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            z-index: 1;
+            transition: transform 0.4s ease;
+        }
+
+        .scrapbook-spotify-card.is-playing .spotify-vinyl-disc-peeking {
+            transform: translateX(12px) rotate(360deg);
+            animation: spinDisk 2.5s linear infinite;
+        }
+
+        .spotify-track-meta {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .spotify-track-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+        }
+
+        .spotify-artist-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            color: #b3b3b3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .spotify-play-btn {
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .spotify-play-btn:hover {
+            transform: scale(1.12);
+            background: #1ed760;
+        }
+
+        .spotify-bottom-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: #b3b3b3;
+        }
+
+        .spotify-progress-line {
+            flex: 1;
+            height: 4px;
+            background: #3e3e3e;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .spotify-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #1ed760;
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+
+        /* 3. Corner / Outer Interactive Accents */
+        .corner-accent {
+            position: absolute;
+            cursor: pointer;
+            z-index: 15;
+            user-select: none;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .corner-accent:hover {
+            transform: scale(1.2) rotate(8deg) !important;
+            filter: drop-shadow(0 8px 16px rgba(236, 72, 153, 0.4));
+        }
+
+        .corner-accent:active {
+            transform: scale(0.92) !important;
+        }
+
+        /* Top-Left: Acoustic Guitar */
+        .corner-guitar {
+            top: -10px;
+            left: -15px;
+            width: clamp(55px, 7vw, 75px);
+            transform: rotate(-22deg);
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+        }
+
+        /* Bottom-Left: Lipstick Kiss */
+        .corner-kiss-left {
+            bottom: -15px;
+            left: -10px;
+            width: clamp(50px, 6.5vw, 68px);
+            transform: rotate(15deg);
+            filter: drop-shadow(0 4px 10px rgba(236, 72, 153, 0.3));
+        }
+
+        /* Top-Right: Cute Flower */
+        .corner-flower-right {
+            top: -15px;
+            right: -10px;
+            width: clamp(45px, 6vw, 60px);
+            transform: rotate(18deg);
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.12));
+        }
+
+        /* Bottom-Right: Interactive Spinning Vinyl Disc */
+        .corner-vinyl-disk {
+            bottom: -20px;
+            right: -10px;
+            width: clamp(80px, 11vw, 100px);
+            height: clamp(80px, 11vw, 100px);
+            transform: rotate(10deg);
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.35));
+        }
+
+        .corner-vinyl-disk img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .corner-vinyl-disk.spinning img {
+            animation: spinDisk 2.8s linear infinite;
+        }
+
+        /* Bottom-Center: Love Text Stamp */
+        .corner-text-stamp {
+            position: absolute;
+            bottom: -32px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            width: clamp(110px, 15vw, 145px);
+            pointer-events: none;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .corner-guitar {
+                top: -5px;
+                left: 10px;
+            }
+
+            .corner-kiss-left {
+                bottom: 25px;
+                left: 15px;
+            }
+
+            .corner-flower-right {
+                top: -5px;
+                right: 15px;
+            }
+
+            .corner-vinyl-disk {
+                bottom: 20px;
+                right: 15px;
+            }
+
+            .corner-text-stamp {
+                bottom: -25px;
+            }
+        }
+
+        /* ==========================================================================
+           8.7 FULLSCREEN FOCUS MODALS
+           ========================================================================== */
+        .scrapbook-focus-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: clamp(12px, 3vh, 24px);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: scale(0.92);
+        }
+
+        .scrapbook-focus-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        .modal-dialog-box {
+            background: #ffffff;
+            border-radius: 20px;
+            position: relative;
+            max-width: min(92vw, 520px);
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+            animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalPop {
+            0% {
+                transform: scale(0.85);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .btn-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.08);
+            border: none;
+            color: #1e293b;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 25;
+        }
+
+        .btn-modal-close:hover {
+            background: #ef4444;
+            color: #ffffff;
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        /* 1. Big Scratch Canvas Modal */
+        .big-polaroid-frame {
+            background: #ffffff;
+            padding: 16px 16px 28px 16px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .big-polaroid-photo-box {
+            position: relative;
+            width: 100%;
+            max-width: 360px;
+            aspect-ratio: 1/1;
+            background: #f1f5f9;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .big-polaroid-photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .big-scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+            touch-action: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .big-scratch-canvas.revealed {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .big-polaroid-caption {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(20px, 4vw, 25px);
+            color: #1e293b;
+            margin-top: 14px;
+            font-weight: 700;
+        }
+
+        .scratch-progress-indicator {
+            font-family: var(--font-bubbly);
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .scratch-modal-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .btn-scratch-nav {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: var(--font-bubbly);
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-scratch-nav:hover {
+            background: #3b82f6;
+            color: #ffffff;
+            border-color: #3b82f6;
+        }
+
+        /* 2. Vinyl Music Lounge Modal */
+        .music-lounge-dialog {
+            background: #111317;
+            color: #ffffff;
+            padding: 28px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .music-lounge-dialog .btn-modal-close {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        .music-turntable-scene {
+            position: relative;
+            width: clamp(200px, 48vw, 270px);
+            height: clamp(200px, 48vw, 270px);
+            margin: 10px auto 16px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .big-vinyl-disk {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            transition: transform 0.2s ease;
+        }
+
+        .big-vinyl-disk.spinning {
+            animation: spinDisk 3.2s linear infinite;
+        }
+
+        .vinyl-center-cover {
+            position: absolute;
+            width: 32%;
+            height: 32%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #111;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .vinyl-center-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes spinDisk {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .music-track-name-big {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(20px, 4.5vw, 26px);
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .music-artist-name-big {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(13px, 3vw, 15px);
+            color: #1ed760;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .music-scrubber-row {
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 16px;
+        }
+
+        .music-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            background: #334155;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .music-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #1ed760;
+            cursor: pointer;
+            box-shadow: 0 0 6px #1ed760;
+        }
+
+        .music-actions-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-music-circle {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-music-circle:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+
+        .btn-music-play-main {
+            background: #1ed760;
+            color: #121212;
+            width: 56px;
+            height: 56px;
+            font-size: 20px;
+            box-shadow: 0 6px 20px rgba(30, 215, 96, 0.4);
+        }
+
+        .btn-music-play-main:hover {
+            background: #1fdf64;
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(30, 215, 96, 0.6);
+        }
+
+        /* 3. Memory Map Modal */
+        .map-modal-dialog {
+            padding: 24px;
+            max-width: min(94vw, 600px);
+            background: #ffffff;
+        }
+
+        .map-modal-big-img {
+            width: 100%;
+            max-height: 360px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin: 14px 0 8px 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+    </style>
+<style id="_goober"> @keyframes go2264125279{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go3020080000{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}@keyframes go463499852{from{transform:scale(0) rotate(90deg);opacity:0;}to{transform:scale(1) rotate(90deg);opacity:1;}}@keyframes go1268368563{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}@keyframes go1310225428{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go651618207{0%{height:0;width:0;opacity:0;}40%{height:0;width:6px;opacity:1;}100%{opacity:1;height:10px;}}@keyframes go901347462{from{transform:scale(0.6);opacity:0.4;}to{transform:scale(1);opacity:1;}}.go4109123758{z-index:9999;}.go4109123758 > *{pointer-events:auto;}</style></head>
+
+<body>
+
+    <!-- ==========================================================================
+       SCREEN 1: THE LOCK SCREEN (PASSCODE 2026)
+       ========================================================================== -->
+    <section id="screen-lock" class="screen active">
+        <div class="vintage-lock-center" id="vintage-lock-center">
+            <!-- Heart Padlock with Key (Custom Romantic Blue Watercolor SVG) -->
+            <div class="heart-lock-wrapper" id="heart-lock-anim">
+                <svg class="heart-lock-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Blue Watercolor Heart Gradient matching bg.jpeg -->
+                        <radialGradient id="heartGrad" cx="38%" cy="32%" r="68%">
+                            <stop offset="0%" stop-color="#38bdf8"></stop>
+                            <stop offset="25%" stop-color="#0284c7"></stop>
+                            <stop offset="60%" stop-color="#1e40af"></stop>
+                            <stop offset="88%" stop-color="#172554"></stop>
+                            <stop offset="100%" stop-color="#0b132b"></stop>
+                        </radialGradient>
+                        <linearGradient id="shackleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#60a5fa"></stop>
+                            <stop offset="50%" stop-color="#1d4ed8"></stop>
+                            <stop offset="100%" stop-color="#0f172a"></stop>
+                        </linearGradient>
+                        <linearGradient id="keyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#38bdf8"></stop>
+                            <stop offset="50%" stop-color="#1d4ed8"></stop>
+                            <stop offset="100%" stop-color="#0c2340"></stop>
+                        </linearGradient>
+                        <filter id="lockShadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#0f2942" flood-opacity="0.35"></feDropShadow>
+                        </filter>
+                    </defs>
+
+                    <!-- Shackle Loop -->
+                    <path class="lock-shackle" d="M38 48 V28 C38 15 82 15 82 28 V48" stroke="url(#shackleGrad)" stroke-width="8.5" stroke-linecap="round" fill="none"></path>
+
+                    <!-- Key Attached to Shackle Loop -->
+                    <g class="lock-key" transform="translate(68, 12) rotate(42)">
+                        <!-- Key Head Ring -->
+                        <circle cx="12" cy="12" r="8" stroke="url(#keyGrad)" stroke-width="3" fill="none"></circle>
+                        <circle cx="12" cy="12" r="3.5" fill="none" stroke="url(#keyGrad)" stroke-width="1.5"></circle>
+                        <!-- Key Shaft -->
+                        <rect x="19" y="10.5" width="22" height="3" rx="1.5" fill="url(#keyGrad)"></rect>
+                        <!-- Key Teeth -->
+                        <rect x="33" y="13.5" width="3" height="5" rx="0.8" fill="url(#keyGrad)"></rect>
+                        <rect x="38" y="13.5" width="3.5" height="6.5" rx="0.8" fill="url(#keyGrad)"></rect>
+                    </g>
+
+                    <!-- Heart Padlock Body -->
+                    <g filter="url(#lockShadow)">
+                        <path d="M60 108 C20 78 12 55 24 38 C34 24 52 28 60 42 C68 28 86 24 96 38 C108 55 100 78 60 108 Z" fill="url(#heartGrad)" stroke="#0c2340" stroke-width="2.5"></path>
+                        <!-- Inner highlight curve -->
+                        <path d="M28 42 C20 54 26 72 58 98" stroke="rgba(255, 255, 255, 0.4)" stroke-width="2.5" stroke-linecap="round" fill="none"></path>
+                        <!-- Top left soft gloss spot -->
+                        <ellipse cx="36" cy="40" rx="8" ry="5" transform="rotate(-30 36 40)" fill="rgba(255,255,255,0.3)"></ellipse>
+                        <!-- Keyhole -->
+                        <circle cx="60" cy="58" r="4.5" fill="#071326"></circle>
+                        <polygon points="57.5,58 62.5,58 64,74 56,74" fill="#071326"></polygon>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Cursive Meta Text -->
+            <div class="lock-meta-text">
+                <div class="meta-line">From: <span id="from-name">Shana</span></div>
+                <div class="meta-line">For: <span id="for-name">Hema</span></div>
+                <div class="meta-hint" id="secret-hint">a little secret...</div>
+            </div>
+
+            <!-- 4 Passcode Dots -->
+            <div class="passcode-dots-row" id="indicator-dots">
+                <div class="p-dot" data-index="0"></div>
+                <div class="p-dot" data-index="1"></div>
+                <div class="p-dot" data-index="2"></div>
+                <div class="p-dot" data-index="3"></div>
+            </div>
+
+            <!-- Compact Keypad Grid -->
+            <div class="passcode-compact-keypad" id="numeric-keypad">
+                <button type="button" class="p-key" data-value="1" fdprocessedid="xqwpi">1</button>
+                <button type="button" class="p-key" data-value="2" fdprocessedid="1tvem8">2</button>
+                <button type="button" class="p-key" data-value="3" fdprocessedid="itjhk">3</button>
+
+                <button type="button" class="p-key" data-value="4" fdprocessedid="ayryto">4</button>
+                <button type="button" class="p-key" data-value="5" fdprocessedid="gknisl">5</button>
+                <button type="button" class="p-key" data-value="6" fdprocessedid="ebulh8">6</button>
+
+                <button type="button" class="p-key" data-value="7" fdprocessedid="q0bp6u">7</button>
+                <button type="button" class="p-key" data-value="8" fdprocessedid="yywus">8</button>
+                <button type="button" class="p-key" data-value="9" fdprocessedid="i9ixw7">9</button>
+
+                <div class="p-key-placeholder"></div>
+                <button type="button" class="p-key" data-value="0" fdprocessedid="p01inf">0</button>
+                <button type="button" class="p-key p-key-backspace" data-value="backspace" title="Delete" fdprocessedid="2a2zdv"><i class="fa-solid fa-delete-left"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SCREEN 1.5: THE HAPPY DANCE WELCOME SCREEN (CLEAN FLOATING)
+       ========================================================================== -->
+    <section id="screen-dance" class="screen">
+        <div class="dance-content-wrapper">
+            <!-- Cheerful bouncing title with emoji on single line -->
+            <h1 class="dance-title" id="dance-title" data-editable="true" data-field="danceScreen.title">HAPPY BIRTHDAY!
+                <span style="display:inline-block;">🎉</span>
+            </h1>
+            <!-- Clean crisp subtitle -->
+            <p class="dance-subtitle" id="dance-subtitle" data-editable="true" data-field="danceScreen.subtitle">Let's
+                get this party started! ✨</p>
+
+            <!-- Clean Floating Birthday Panda GIF Frame -->
+            <div class="dance-gif-box">
+                <img id="dance-gif-img" data-field="danceScreen.gifUrl" src="./assets/happy-dance-birthday.gif" alt="Happy Dance Birthday">
+            </div>
+
+            <!-- Modern vibrant Next button to transition to screen-surprise -->
+            <button type="button" class="btn-dance-next" id="dance-next-btn" fdprocessedid="rafauh"><span id="dance-next-btn-text" data-editable="true" data-field="danceScreen.nextButtonText">NEXT</span> <i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SCREEN 2: SURPRISE PROPOSAL YES/NO
+       ========================================================================== -->
+    <section id="screen-surprise" class="screen">
+        <!-- Title with heart above -->
+        <div class="surprise-header">
+            <!-- Custom Red Hand-drawn Heart SVG -->
+            <svg class="title-heart" viewBox="0 0 24 24" fill="#ff6b81" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+            </svg>
+            <h1 class="surprise-title" id="surprise-title" data-editable="true" data-field="surpriseScreen.question">Are
+                you ready for surprise?</h1>
+        </div>
+
+        <!-- Center Peach & Goma Bear GIF Box -->
+        <div class="gif-container">
+            <!-- Guilt-trip dialogue speech bubble -->
+            <div class="speech-bubble" id="plead-bubble">No way! 🥺</div>
+
+            <img src="./assets/cat-love.gif" alt="Cat Love You" id="surprise-gif" data-field="surpriseScreen.gifUrl">
+        </div>
+
+        <!-- Interactive Dodge & Scaling YES / NO Buttons -->
+        <div class="buttons-group" id="proposal-buttons-group">
+            <button class="btn-proposal btn-yes" id="yes-button" data-editable="true" data-field="surpriseScreen.yesButtonText" fdprocessedid="ac5p3k">YES 💖</button>
+            <button class="btn-proposal btn-no" id="no-button" data-editable="true" data-field="surpriseScreen.noButtonText" fdprocessedid="qsq51l">NO 🙈</button>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SCREEN 2.2: THE GIFT SELECTION SCREEN
+       ========================================================================== -->
+    <section id="screen-gifts" class="screen">
+        <div class="keypad-container">
+            <h1 id="gifts-title" data-editable="true" data-field="giftsScreen.title" class="gifts-header-title">
+                Gift for you</h1>
+
+            <div class="gifts-grid">
+                <!-- Gift Box 1 -->
+                <div class="gift-wrapper" onclick="openGift(this, 'cake')">
+                    <img id="gift-box-1" src="./assets/gift.png" alt="Gift Box" data-field="giftsScreen.giftBoxImage">
+                </div>
+                <!-- Gift Box 2 -->
+                <div class="gift-wrapper" onclick="openGift(this, 'celebration')">
+                    <img id="gift-box-2" src="./assets/gift.png" alt="Gift Box" data-field="giftsScreen.giftBoxImage">
+                </div>
+                <!-- Gift Box 3 -->
+                <div class="gift-wrapper" onclick="openGift(this, 'envelope')">
+                    <img id="gift-box-3" src="./assets/gift.png" alt="Gift Box" data-field="giftsScreen.giftBoxImage">
+                </div>
+            </div>
+
+            <p id="gift-instruction" data-editable="true" data-field="giftsScreen.instruction" class="gift-instruction-text">
+                click any gift to open</p>
+
+            <!-- Milestone Card shown after all 3 gifts are opened -->
+            <div id="all-gifts-unlocked-card" class="all-gifts-unlocked-card" style="display: none;">
+                <div class="unlocked-sparkle-badge">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> ALL 3 GIFTS UNLOCKED!
+                </div>
+                <button type="button" class="btn-open-scrapbook" id="btn-open-scrapbook">
+                    <span>OPEN FINAL SURPRISE</span> <i class="fa-solid fa-gift"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SCREEN 2.5: THE BIRTHDAY CAKE SCREEN (3D LAYERED CAKE WITH FLICKERING CANDLE)
+       ========================================================================== -->
+    <section id="screen-cake" class="screen">
+        <!-- Clean Glassmorphic Top Back Button -->
+        <button class="btn-cake-back-top" id="cake-back-button" fdprocessedid="xk9dv">
+            <i class="fa-solid fa-chevron-left"></i> BACK TO GIFTS
+        </button>
+
+        <div class="cake-scene-wrapper">
+            <!-- Perfectly Dimensioned Stage Container -->
+            <div class="cake-stage-wrapper">
+                <div class="cake" id="cake-arena">
+                    <div class="plate"></div>
+                    <div class="layer layer-bottom"></div>
+                    <div class="layer layer-middle"></div>
+                    <div class="layer layer-top"></div>
+                    <div class="icing"></div>
+                    <div class="drip drip1"></div>
+                    <div class="drip drip2"></div>
+                    <div class="drip drip3"></div>
+                    <div class="candle" id="candle-velas" title="Click to blow candle">
+                        <div class="flame" id="cake-flame"></div>
+                        <div class="candle-smoke-puff"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typography Header -->
+            <div class="cake-text-block text">
+                <h1 id="cake-screen-title" data-editable="true" data-field="cakeScreen.title"style="margin-top: 20px;">Happy Birthday!</h1>
+                <p id="cake-recipient-name" data-editable="true" data-field="cakeScreen.recipientName">Hema</p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="cake-controls">
+                <!-- Blow Candle Button -->
+                <button type="button" class="btn-blow-candles" id="blow-candles-btn" data-editable="true" data-field="cakeScreen.blowCandleButtonText" fdprocessedid="jo56u">
+                    <i class="fa-solid fa-wind"></i> BLOW CANDLE 🕯️
+                </button>
+
+                <!-- Relight / Replay button (revealed after blow) -->
+                <button type="button" class="btn-cake-replay" id="cake-replay-button" style="display: none;" data-editable="true" data-field="cakeScreen.relightButtonText">
+                    <i class="fa-solid fa-rotate-left"></i> RELIGHT CANDLE
+                </button>
+
+                <!-- Back to Gifts button (revealed after blow) -->
+                <button type="button" class="btn-cake-action" id="cake-next-button" style="display: none;" data-editable="true" data-field="cakeScreen.backButtonText">
+                    <i class="fa-solid fa-gift"></i> BACK TO GIFTS
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SCREEN 3: THE BIRTHDAY CELEBRATION (I MISS US POLAROIDS - SCRATCH TO REVEAL)
+       ========================================================================== -->
+    <section id="screen-celebration" class="screen">
+        <!-- Blue Lipstick Kisses Background Layer -->
+        <div class="celebration-bg-layer"></div>
+        <div class="celebration-bg-overlay"></div>
+
+        <!-- Back Button -->
+        <button class="btn-celebration-back" id="celebration-back-button" data-editable="true" data-field="celebrationScreen.backButtonText" fdprocessedid="f811c">
+            <i class="fa-solid fa-chevron-left"></i> BACK
+        </button>
+
+        <div class="celebration-content">
+            <h1 id="celebration-title" data-editable="true" data-field="celebrationScreen.title" class="celebration-main-title"><span class="letter">S</span><span class="letter">T</span><span class="letter">U</span><span class="letter">N</span><span class="letter">N</span><span class="letter">I</span><span class="letter">N</span><span class="letter">G</span><span class="letter">&nbsp;</span><span class="letter">Q</span><span class="letter">U</span><span class="letter">E</span><span class="letter">E</span><span class="letter">N</span></h1>
+            <p id="scratch-hint-text" data-editable="true" data-field="celebrationScreen.scratchHint" class="celebration-hint">
+                <i class="fa-solid fa-wand-magic-sparkles" style="color: #fde047; margin-right: 6px;"></i> Scratch the photos to See Her! 💕
+            </p>
+
+            <div class="polaroids-wrapper">
+                <!-- Left Polaroid with Scratch Layer -->
+                <div class="polaroid p-card p-card-left">
+                    <img src="./assets/flower.png" onerror="this.style.display='none'" alt="Flower" class="ribbon remove-bg">
+                    <div class="polaroid-photo font-accent">
+                        <img id="celebration-photo-1" class="h-full w-full object-cover" src="./replacable/1.png" onerror="this.src='./assets/cat-love.gif'" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        <canvas class="scratch-canvas" id="scratch-canvas-1"></canvas>
+                    </div>
+                </div>
+
+                <!-- Middle Polaroid with Scratch Layer -->
+                <div class="polaroid p-card p-card-middle">
+                    <img src="./assets/flower.png" onerror="this.style.display='none'" alt="Ribbon" class="ribbon remove-bg">
+                    <div class="polaroid-photo font-accent">
+                        <img id="celebration-photo-2" class="h-full w-full object-cover" src="./replacable/2.png" onerror="this.src='./assets/happy-dance-birthday.gif'" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        <canvas class="scratch-canvas" id="scratch-canvas-2"></canvas>
+                    </div>
+                </div>
+
+                <!-- Right Polaroid with Scratch Layer -->
+                <div class="polaroid p-card p-card-right">
+                    <img src="./assets/flowers.png" onerror="this.style.display='none'" alt="Ribbon" class="ribbon">
+                    <div class="polaroid-photo font-accent">
+                        <img id="celebration-photo-3" class="h-full w-full object-cover" src="./replacable/3.png" onerror="this.src='./assets/love-you-kiss.gif'" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        <canvas class="scratch-canvas" id="scratch-canvas-3"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Accents: Together Script & Stamp -->
+            <div id="bottomAccents" class="celebration-bottom-accents">
+                <!-- Circular Stamp (Interactive Easter Egg to open card!) -->
+                <div class="stamp-btn" id="stamp-button">
+                    <div id="celebration-stamp-text" data-editable="true" data-field="celebrationScreen.stampText" class="stamp-text-inner">
+                        Icon<br>of
+                    </div>
+                </div>
+
+                <!-- Together Script -->
+                <span id="celebration-subtitle" data-editable="true" data-field="celebrationScreen.subtitle" class="together-script">
+                    charm
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       OVERLAY: DIGITAL UNFOLDING LOVE ENVELOPE (GIFT 3)
+       ========================================================================== -->
+    <div class="overlay" id="overlay-letter">
+        <!-- Scrapbook Decorative Workspace -->
+        <div style="position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; height: 100dvh; overflow: hidden;">
+
+            <!-- Central Letter Container -->
+            <div id="envelope-wrapper" class="envelope-interactive" title="Click to open letter">
+                <img id="letter-image" src="./assets/letter.png" alt="Gorgeous Love Letter">
+                <div class="letter-open-hint">
+                    <i class="fa-solid fa-envelope-open-text"></i> Click to Open Letter 💌
+                </div>
+            </div>
+
+            <!-- Interactive Polaroid Card 1 (Left Side) -->
+            <div class="letter-polaroid" onclick="popHeartConfetti(event, this)" style="left: 6%; top: 20%; width: 150px; padding: 8px 8px 26px 8px; transform: rotate(-8deg); z-index: 5;">
+                <img src="./assets/flower.png" alt="Sticker" style="position: absolute; top: -15px; left: -15px; width: 45px; height: 45px; object-fit: contain; transform: rotate(-10deg); filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15)); z-index: 12;" onerror="this.style.display='none'">
+                <div style="width: 100%; aspect-ratio: 1/1; background: #eee; overflow: hidden; border-radius: 2px;">
+                    <img id="letter-photo-1" src="./replacable/1.png" alt="Us" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='./assets/happy-dance-birthday.gif'">
+                </div>
+            </div>
+
+            <!-- Interactive Polaroid Card 2 (Bottom Left Side) -->
+            <div class="letter-polaroid" onclick="popHeartConfetti(event, this)" style="left: 8%; bottom: 15%; width: 140px; padding: 8px 8px 24px 8px; transform: rotate(6deg); z-index: 6;">
+                <div style="width: 100%; aspect-ratio: 1/1; background: #eee; overflow: hidden; border-radius: 2px;">
+                    <img id="letter-photo-2" src="./replacable/2.png" alt="Us" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='./assets/love-you-kiss.gif'">
+                </div>
+            </div>
+
+            <!-- Interactive Polaroid Card 3 (Right Side) -->
+            <div class="letter-polaroid" onclick="popHeartConfetti(event, this)" style="right: 8%; top: 15%; width: 160px; padding: 8px 8px 28px 8px; transform: rotate(12deg); z-index: 5;">
+                <img src="./assets/flowers.png" alt="Flowers Sticker" style="position: absolute; bottom: -18px; right: -18px; width: 60px; height: 60px; object-fit: contain; transform: rotate(15deg); filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15)); z-index: 12;" onerror="this.style.display='none'">
+                <div style="width: 100%; aspect-ratio: 1/1; background: #eee; overflow: hidden; border-radius: 2px;">
+                    <img id="letter-photo-3" src="./replacable/3.png" alt="Us" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='./assets/cat-love.gif'">
+                </div>
+            </div>
+
+            <!-- Small Floating Flower Sticker in Top-Left background -->
+            <img class="sticker-float" src="./assets/flower.png" style="left: 25%; top: 10%; width: 45px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); z-index: 3;" onerror="this.style.display='none'">
+
+            <!-- Small Floating Flowers Sticker in Bottom-Right background -->
+            <img class="sticker-float" src="./assets/flowers.png" style="right: 28%; bottom: 12%; width: 65px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); z-index: 3;" onerror="this.style.display='none'">
+
+        </div>
+
+        <!-- Sleek Back Button -->
+        <button id="close-envelope-btn" class="btn-close-envelope" fdprocessedid="yxprod">BACK</button>
+
+        <!-- Pop-out / Zoomed Unfolded Love Letter Modal -->
+        <div id="love-letter-modal" class="love-letter-modal">
+            <div class="love-letter-paper" id="love-letter-paper">
+                <button type="button" class="btn-close-letter" id="close-letter-modal-btn" title="Fold Letter" fdprocessedid="f5b45o">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+                <h2 class="letter-heading" id="letter-heading-text" data-editable="true" data-field="letterScreen.heading">
+                    <i class="fa-solid fa-heart" style="color: #ef4444; font-size: 20px;"></i>
+                    To My Dear <span id="letter-recipient-name">Hema</span> ❤️
+                </h2>
+
+                <div class="letter-body">
+                    <p class="letter-para" id="letter-para-1" data-editable="true" data-field="letterScreen.paragraph1">
+                       You’re honestly the comfort I always look for, and I’m so glad to have you in my life. I really miss those little flower gestures, they always brightened my day. Thank you for being such a wonderful friend, and I’m grateful for you every single day. You truly make my world feel lighter and more special just by being in it.
+                    </p>
+                    <p class="letter-para" id="letter-para-2" data-editable="true" data-field="letterScreen.paragraph2" style="margin-top: 12px;">
+                        Happy Birthday to my favorite human! 🎂✨ May all your sweetest dreams and
+                        wishes come true.
+                    </p>
+                </div>
+
+                <div class="letter-sign">
+                    <span id="letter-sign-off" data-editable="true" data-field="letterScreen.signOff">Forever &amp; always
+                        yours,</span><br>
+                    <span id="letter-author-name" data-editable="true" data-field="letterScreen.authorName" style="color: #1e3a8a; font-weight: 700;">Shana</span> 💖
+                </div>
+
+                <img src="./assets/wax_seal.png" class="letter-wax-seal" alt="Wax Seal" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       SCREEN 4: AESTHETIC MEMORY SCRAPBOOK & VINYL MUSIC COLLAGE (POST 3 GIFTS)
+       ========================================================================== -->
+    <section id="screen-scrapbook" class="screen">
+        <!-- Top Sticky Header Bar -->
+        <div class="scrapbook-header-bar">
+            <button type="button" class="btn-scrapbook-back" id="scrapbook-back-btn" fdprocessedid="g3ylfj">
+                <i class="fa-solid fa-gift"></i> BACK TO GIFTS
+            </button>
+
+            <div class="scrapbook-header-titles">
+                <h1 class="scrapbook-main-title">Our Sweet Memories</h1>
+                <p class="scrapbook-sub-title">tap anything to explore, scratch &amp; play ✨</p>
+            </div>
+
+            <button type="button" class="scrapbook-music-quick-btn" id="scrapbook-quick-music-btn" title="Play / Pause Song" fdprocessedid="qw1ylb">
+                <img src="./assets/music dish.png" class="mini-disk-icon" style="width: 18px; height: 18px;" alt="Disc">
+                <span id="quick-music-text">PLAY MUSIC</span>
+            </button>
+        </div>
+
+        <!-- Scrapbook Clean 2-Column Responsive Canvas -->
+        <div class="scrapbook-main-container">
+
+            <!-- Corner Interactive Items (Outer Margins) -->
+            <!-- Top-Left: Acoustic Guitar -->
+            <img src="./assets/guittar.png" class="corner-accent corner-guitar" onclick="triggerGuitarInteraction(this)" title="Strum a melody! 🎸" alt="Guitar" onerror="this.style.display='none'">
+
+            <!-- Bottom-Left: Transparent Lipstick Kiss -->
+            <img src="./assets/kiss_mark.png" class="corner-accent corner-kiss-left" onclick="triggerKissInteraction(this)" title="Tap for Kiss! 💋" alt="Kiss Mark">
+
+            <!-- Top-Right: Flower -->
+            <img src="./assets/flowers.png" class="corner-accent corner-flower-right" onclick="triggerFlowerInteraction(this)" title="Sweet Flower 🌸" alt="Flower" onerror="this.src='./assets/flower.png'">
+
+            <!-- Bottom-Right: Floating Interactive Vinyl Record -->
+            <div class="corner-accent corner-vinyl-disk" id="scrapbook-floating-vinyl" onclick="toggleMusicPlay()" title="Click to spin &amp; play song">
+                <img src="./assets/music dish.png" alt="Vinyl Record">
+            </div>
+
+            <!-- Bottom-Center: Love Text Stamp -->
+            <img src="./assets/darling you are perfect text.png" class="corner-text-stamp" alt="Love Stamp" onerror="this.style.display='none'">
+
+            <!-- LEFT COLUMN: 4 "Scratch Me" Polaroids Stack -->
+            <div class="scrapbook-left-stack-wrap">
+                <div class="polaroids-stack-container" id="polaroid-stack">
+                    <!-- Polaroid 1 -->
+                    <div class="scrapbook-polaroid-card scrapbook-item" data-photo-id="1" onclick="openScratchModal(1)" title="Click to scratch memory 1">
+                        <div class="polaroid-tape-sticker"></div>
+                        <img src="./replacable/4.png" class="polaroid-corner-flower" alt="Flower" onerror="this.style.display='none'">
+                        <div class="polaroid-inner-box">
+                            <img src="./replacable/4.png" alt="Memory 1" onerror="this.src='./assets/happy-dance-birthday.gif'">
+                            <div class="polaroid-scratch-overlay" id="stack-overlay-1">
+                                <span>Scratch me</span>
+                                <i><i class="fa-solid fa-wand-magic-sparkles"></i> tap to reveal</i>
+                            </div>
+                        </div>
+                        <div class="item-badge-hint">✨ Tap to Scratch</div>
+                    </div>
+
+                    <!-- Polaroid 2 -->
+                    <div class="scrapbook-polaroid-card scrapbook-item" data-photo-id="2" onclick="openScratchModal(2)" title="Click to scratch memory 2">
+                        <div class="polaroid-tape-sticker"></div>
+                        <div class="polaroid-inner-box">
+                            <img src="./replacable/2.png" alt="Memory 2" onerror="this.src='./assets/cat-love.gif'">
+                            <div class="polaroid-scratch-overlay" id="stack-overlay-2">
+                                <span>Scratch me</span>
+                                <i><i class="fa-solid fa-wand-magic-sparkles"></i> tap to reveal</i>
+                            </div>
+                        </div>
+                        <div class="item-badge-hint">✨ Tap to Scratch</div>
+                    </div>
+
+                    <!-- Polaroid 3 -->
+                    <div class="scrapbook-polaroid-card scrapbook-item" data-photo-id="3" onclick="openScratchModal(3)" title="Click to scratch memory 3">
+                        <div class="polaroid-tape-sticker"></div>
+                        <div class="polaroid-inner-box">
+                            <img src="./replacable/3.png" alt="Memory 3" onerror="this.src='./assets/love-you-kiss.gif'">
+                            <div class="polaroid-scratch-overlay" id="stack-overlay-3">
+                                <span>Scratch me</span>
+                                <i><i class="fa-solid fa-wand-magic-sparkles"></i> tap to reveal</i>
+                            </div>
+                        </div>
+                        <div class="item-badge-hint">✨ Tap to Scratch</div>
+                    </div>
+
+                    <!-- Polaroid 4 -->
+                    <div class="scrapbook-polaroid-card scrapbook-item" data-photo-id="4" onclick="openScratchModal(4)" title="Click to scratch memory 4">
+                        <div class="polaroid-tape-sticker"></div>
+                        <div class="polaroid-inner-box">
+                            <img src="./replacable/1.png" alt="Memory 4" onerror="this.src='./assets/happy-dance-birthday.gif'">
+                            <div class="polaroid-scratch-overlay" id="stack-overlay-4">
+                                <span>Scratch me</span>
+                                <i><i class="fa-solid fa-wand-magic-sparkles"></i> tap to reveal</i>
+                            </div>
+                        </div>
+                        <div class="item-badge-hint">✨ Tap to Scratch</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Memory Map Card + Spotify Music Card -->
+            <div class="scrapbook-right-col-wrap">
+
+                <!-- 1. Memory Map Card (Top) -->
+                <div class="scrapbook-map-card scrapbook-item" id="scrapbook-map-card" onclick="openMapModal()" title="Click to view full memory map">
+                    <div class="map-card-header">
+                        <div class="map-card-title">
+                            <i class="fa-solid fa-location-dot" style="color: #ef4444;"></i>
+                            <span>Memory map</span>
+                        </div>
+                        <div class="map-zoom-pills">
+                            <button type="button" class="map-pill-btn" fdprocessedid="p46pv7">+</button>
+                            <button type="button" class="map-pill-btn" fdprocessedid="3o95pd">-</button>
+                        </div>
+                    </div>
+
+                    <div class="map-thumb-wrapper">
+                        <img src="./assets/memory_map.jpg" class="map-thumb-img" alt="Memory Map" onerror="this.src='./assets/bg2.jpg'">
+                        <div class="map-pin-avatar">
+                            <img src="./replacable/1.png" alt="Couple Pin" onerror="this.src='./assets/happy-dance-birthday.gif'">
+                        </div>
+                    </div>
+                    <div class="item-badge-hint">📍 View Full Map</div>
+                </div>
+
+                <!-- 2. Spotify Music Player Card (Bottom) -->
+                <div class="scrapbook-spotify-card scrapbook-item" id="scrapbook-spotify-card" onclick="openMusicModal(event)" title="Click to open music lounge">
+                    <div class="spotify-top-row">
+                        <div class="spotify-logo-badge">
+                            <i class="fa-brands fa-spotify"></i>
+                            <span style="font-size: 11px; font-weight: 700; color: #fff;">Spotify</span>
+                        </div>
+                        <span class="spotify-preview-pill">Preview</span>
+                    </div>
+
+                    <div class="spotify-main-content">
+                        <div class="spotify-cover-disc-wrap">
+                            <img src="./assets/music dish.png" class="spotify-vinyl-disc-peeking" alt="Vinyl Disc">
+                            <img src="./replacable/1.png" class="spotify-cover-art" id="spotify-card-cover" alt="Album Cover" onerror="this.src='./assets/happy-dance-birthday.gif'">
+                        </div>
+
+                        <div class="spotify-track-meta">
+                            <div class="spotify-track-title" id="spotify-card-title">She is a fantasy</div>
+                            <div class="spotify-artist-name" id="spotify-card-artist">Harris Jayaraj</div>
+                        </div>
+
+                        <button type="button" class="spotify-play-btn" id="spotify-play-btn" onclick="handleCardPlayClick(event)" title="Play / Pause" fdprocessedid="5rz6w">
+                            <i class="fa-solid fa-play" id="spotify-play-icon"></i>
+                        </button>
+                    </div>
+
+                    <div class="spotify-bottom-bar">
+                        <span id="spotify-cur-time">0:00</span>
+                        <div class="spotify-progress-line">
+                            <div class="spotify-progress-fill" id="spotify-progress-fill"></div>
+                        </div>
+                        <span id="spotify-dur-time">3:28</span>
+                    </div>
+                    <div class="item-badge-hint">🎵 Open Vinyl Player</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SCRAPBOOK FULLSCREEN FOCUS MODALS
+       ========================================================================== -->
+    <!-- 1. Fullscreen Scratch Polaroid Modal -->
+    <div class="scrapbook-focus-modal" id="modal-scratch-focus">
+        <div class="modal-dialog-box">
+            <button type="button" class="btn-modal-close" onclick="closeScratchModal()" title="Close" fdprocessedid="ap66g">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="big-polaroid-frame">
+                <div class="big-polaroid-photo-box" id="big-polaroid-box">
+                    <img id="big-scratch-img" src="./replacable/4.png" alt="Memory Photo">
+                    <canvas id="big-scratch-canvas" class="big-scratch-canvas"></canvas>
+                </div>
+
+                <div class="big-polaroid-caption" id="big-scratch-caption">
+                    The sun’s kiss belongs to us both 🌅💕
+                </div>
+
+                <div class="scratch-progress-indicator" id="big-scratch-progress">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color: #f59e0b;"></i> Scratch with your finger or
+                    mouse to reveal! (0%)
+                </div>
+
+                <div class="scratch-modal-controls">
+                    <button type="button" class="btn-scratch-nav" onclick="prevScratchPhoto()" fdprocessedid="8yb9nb">
+                        <i class="fa-solid fa-chevron-left"></i> Prev
+                    </button>
+                    <button type="button" class="btn-scratch-nav" onclick="resetCurrentScratch()" fdprocessedid="av85i">
+                        <i class="fa-solid fa-rotate-left"></i> Reset Scratch
+                    </button>
+                    <button type="button" class="btn-scratch-nav" onclick="nextScratchPhoto()" fdprocessedid="z3p3d6">
+                        Next <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Fullscreen Vinyl Music Lounge Modal -->
+    <div class="scrapbook-focus-modal" id="modal-music-focus">
+        <div class="modal-dialog-box music-lounge-dialog">
+            <button type="button" class="btn-modal-close" onclick="closeMusicModal()" title="Close" fdprocessedid="kwrru9">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Spinning Vinyl Disc Record with Album Art Center -->
+            <div class="music-turntable-scene">
+                <img src="./assets/music dish.png" class="big-vinyl-disk" id="modal-vinyl-disk" alt="Spinning Vinyl">
+                <div class="vinyl-center-cover">
+                    <img src="./replacable/1.png" id="modal-vinyl-cover" alt="Cover" onerror="this.src='./assets/happy-dance-birthday.gif'">
+                </div>
+            </div>
+
+            <!-- Song Info -->
+            <h2 class="music-track-name-big" id="modal-track-name">She is a fantasy</h2>
+            <p class="music-artist-name-big" id="modal-artist-name">Harris Jayaraj</p>
+
+            <!-- Audio Scrubber Row -->
+            <div class="music-scrubber-row">
+                <span id="modal-cur-time">0:00</span>
+                <input type="range" class="music-slider" id="modal-music-slider" min="0" max="100" value="0" oninput="handleSeek(this.value)">
+                <span id="modal-dur-time">3:28</span>
+            </div>
+
+            <!-- Actions Row -->
+            <div class="music-actions-row">
+                <button type="button" class="btn-music-circle" onclick="restartMusic()" title="Replay" fdprocessedid="gvna6g">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+                <button type="button" class="btn-music-circle btn-music-play-main" id="modal-play-btn" onclick="toggleMusicPlay()" title="Play / Pause" fdprocessedid="l0h8y">
+                    <i class="fa-solid fa-play" id="modal-play-icon"></i>
+                </button>
+                <button type="button" class="btn-music-circle" onclick="openSpotifyLink()" title="Open in Spotify" fdprocessedid="pk1hj">
+                    <i class="fa-brands fa-spotify" style="color: #1ed760;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Fullscreen Memory Map Modal -->
+    <div class="scrapbook-focus-modal" id="modal-map-focus">
+        <div class="modal-dialog-box map-modal-dialog">
+            <button type="button" class="btn-modal-close" onclick="closeMapModal()" title="Close" fdprocessedid="0gkwpc">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h2 style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; color: #1e293b; margin-bottom: 2px;" id="modal-map-title">Memory map 📍</h2>
+            <p style="font-size: 14px; color: #64748b;" id="modal-map-sub">Where our sweetest journey began 💕</p>
+            <img src="./assets/memory_map.jpg" class="map-modal-big-img" id="modal-map-big-img" alt="Map View" onerror="this.src='./assets/bg2.jpg'">
+            <p style="font-family: 'Caveat', cursive; font-size: 20px; color: #334155; font-weight: 700; text-align: center; margin-top: 6px;">
+                "Every step with you leads to my favorite place." ❤️
+            </p>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       9. JAVASCRIPT MASTER INTERACTION LOGIC
+       ========================================================================== -->
+    <script>
+        /* ==========================================================================
+           ⭐ TEMPLATE CUSTOMIZATION CONFIG (EASILY CUSTOMIZE YOUR BIRTHDAY WEBSITE)
+           ========================================================================== */
+        window.SCRAPBOOK_CONFIG = {
+            // Background Song / Music Card Configuration
+            music: {
+                title: "She is a fantasy",
+                artist: "Harris Jayaraj",
+                // Direct MP3 URL or local path (e.g. './music/nightwemet.mp3')
+                audioSrc: "./music/nightwemet.mp3",
+                fallbackAudioSrc: "./music/nightwemet.mp3",
+                coverSrc: "./replacable/1.png",
+                spotifyTrackUrl: "https://open.spotify.com/track/0QZ5Lookupdf95Mr6PV49R"
+            },
+
+            // Memory Map Configuration
+            memoryMap: {
+                title: "Memory map",
+                subtitle: "Where our journey started 📍",
+                mapImageSrc: "./assets/memory_map.jpg",
+                locationName: "Our Special Place",
+                pinCaption: "First Date 💖"
+            },
+
+            // "Scratch Me" Polaroids Memory Photos & Captions
+            scratchCards: [
+                {
+                    id: 1,
+                    title: "Scratch me",
+                    image: "./replacable/4.png",
+                    caption: "The sun’s kiss belongs to us both 🌅💕"
+                },
+                {
+                    id: 2,
+                    title: "Scratch me",
+                    image: "./replacable/5.png",
+                    caption: "Golden moments, Onam with you is special. ✨"
+                },
+                {
+                    id: 3,
+                    title: "Scratch me",
+                    image: "./replacable/6.png",
+                    caption: "Pongal vibes with the sweetest bond 💫"
+                },
+                {
+                    id: 4,
+                    title: "Scratch me",
+                    image: "./replacable/7.png",
+                    caption: "Forever & always with you! Happy Birthday! 🎂❤️"
+                }
+            ]
+        };
+
+        // DOM Elements
+        const screens = {
+            lock: document.getElementById('screen-lock'),
+            dance: document.getElementById('screen-dance'),
+            surprise: document.getElementById('screen-surprise'),
+            gifts: document.getElementById('screen-gifts'),
+            cake: document.getElementById('screen-cake'),
+            celebration: document.getElementById('screen-celebration'),
+            scrapbook: document.getElementById('screen-scrapbook')
+        };
+        const keypad = document.getElementById('numeric-keypad');
+        const yesBtn = document.getElementById('yes-button');
+        const noBtn = document.getElementById('no-button');
+        const pleadBubble = document.getElementById('plead-bubble');
+        const letterOverlay = document.getElementById('overlay-letter');
+        const envelopeWrapper = document.getElementById('envelope-wrapper');
+        const closeEnvelopeBtn = document.getElementById('close-envelope-btn');
+        const danceNextBtn = document.getElementById('dance-next-btn');
+        const blowCandlesBtn = document.getElementById('blow-candles-btn');
+        const candleVelas = document.getElementById('candle-velas');
+        const cakeArena = document.getElementById('cake-arena');
+        const cakeNextBtn = document.getElementById('cake-next-button');
+        const cakeReplayBtn = document.getElementById('cake-replay-button');
+        const cakeBackBtn = document.getElementById('cake-back-button');
+        const btnOpenScrapbook = document.getElementById('btn-open-scrapbook');
+        const scrapbookBackBtn = document.getElementById('scrapbook-back-btn');
+        const quickMusicBtn = document.getElementById('scrapbook-quick-music-btn');
+
+        let areCandlesBlown = false;
+        const openedGiftsSet = new Set();
+
+        // Split celebration screen title into letters for GSAP animation
+        const titleElem = document.getElementById('celebration-title');
+        if (titleElem) {
+            const text = titleElem.innerText.trim();
+            titleElem.innerHTML = '';
+            text.split('').forEach(char => {
+                const span = document.createElement('span');
+                span.innerText = char === ' ' ? '\u00A0' : char;
+                span.className = 'letter';
+                titleElem.appendChild(span);
+            });
+        }
+
+        let celebrationTimeline = null;
+        function playCelebrationAnimation() {
+            gsap.set('.letter', { opacity: 0, y: 30 });
+            gsap.set('.p-card', { opacity: 0, y: 40 });
+            gsap.set('#bottomAccents', { opacity: 0 });
+
+            if (celebrationTimeline) celebrationTimeline.kill();
+            celebrationTimeline = gsap.timeline();
+
+            celebrationTimeline.to('.letter', {
+                opacity: 1,
+                y: 0,
+                stagger: 0.08,
+                duration: 0.7,
+                ease: "power4.out"
+            })
+                .to('.p-card', {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.12,
+                    duration: 0.8,
+                    ease: "back.out(1.4)"
+                }, "-=0.3")
+                .to('#bottomAccents', {
+                    opacity: 1,
+                    duration: 0.7,
+                    ease: "power2.out"
+                }, "-=0.3");
+
+            setTimeout(initScratchCards, 150);
+        }
+
+        // Logic Variables
+        let currentPasscode = '';
+        let noClickCount = 0;
+        let yesScale = 1.0;
+        let noScale = 1.0;
+        let reactionTimeout = null;
+
+        const PLEADING_MESSAGES = [
+            "Are you sure? 🥺",
+            "Think again! 💔",
+            "Pretty please? 😭",
+            "No way! 😭",
+            "Don't do this to me! 💔",
+            "Yes is a better option! 💕",
+            "Look at my cute face! 🥺",
+            "Just click YES! 💕"
+        ];
+
+        /* ==========================================================================
+           AUDIO CHIME SYNTHESIS ENGINE (WEB AUDIO API)
+           ========================================================================== */
+        let audioCtx = null;
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioCtx;
+        }
+
+        function playTone(freq, duration = 0.15, type = 'sine', gainVal = 0.1) {
+            try {
+                const ctx = getAudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+
+                const osc = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+
+                osc.connect(gainNode);
+                gainNode.connect(ctx.destination);
+
+                osc.type = type;
+                osc.frequency.value = freq;
+
+                gainNode.gain.setValueAtTime(gainVal, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + duration);
+            } catch (e) { }
+        }
+
+        function playKeypadTap() {
+            playTone(880, 0.1, 'sine', 0.15);
+        }
+
+        function playErrorSound() {
+            playTone(180, 0.12, 'sawtooth', 0.2);
+            setTimeout(() => playTone(150, 0.15, 'sawtooth', 0.2), 100);
+        }
+
+        function playUnlockSound() {
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, index) => {
+                setTimeout(() => {
+                    playTone(freq, 0.35, 'triangle', 0.15);
+                }, index * 100);
+            });
+        }
+
+        function playSuccessMelody() {
+            const ctx = getAudioContext();
+            if (ctx.state === 'suspended') ctx.resume();
+
+            const notes = [659.25, 783.99, 880.00, 987.77, 1318.51];
+            notes.forEach((freq, index) => {
+                setTimeout(() => {
+                    playTone(freq, 0.6, 'sine', 0.25);
+                }, index * 80);
+            });
+        }
+
+        /* ==========================================================================
+           PASSCODE SYSTEM IMPLEMENTATION (PAGE 1)
+           ========================================================================== */
+        if (keypad) {
+            keypad.addEventListener('click', (e) => {
+                const keyElem = e.target.closest('.p-key');
+                if (!keyElem) return;
+                const value = keyElem.getAttribute('data-value');
+                if (value === 'backspace') {
+                    handleBackspace();
+                } else if (value) {
+                    handleInput(value);
+                }
+            });
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (screens.lock && screens.lock.classList.contains('active')) {
+                if (e.key >= '0' && e.key <= '9') {
+                    handleInput(e.key);
+                } else if (e.key === 'Backspace') {
+                    handleBackspace();
+                } else if (e.key === 'Delete' || e.key === 'Escape') {
+                    handleClear();
+                } else if (e.key === 'Enter') {
+                    if (currentPasscode.length === 4) {
+                        validatePasscode();
+                    }
+                }
+            } else if (e.key === 'Escape') {
+                closeAllModals();
+            }
+        });
+
+        if (danceNextBtn) {
+            danceNextBtn.addEventListener('click', () => {
+                playTone(659.25, 0.2, 'sine', 0.15);
+                transitionScreen('dance', 'surprise');
+            });
+        }
+
+        function handleInput(val) {
+            if (currentPasscode.length < 4) {
+                currentPasscode += val;
+                playKeypadTap();
+                updateDots();
+
+                if (currentPasscode.length === 4) {
+                    setTimeout(() => {
+                        validatePasscode();
+                    }, 180);
+                }
+            }
+        }
+
+        function handleBackspace() {
+            if (currentPasscode.length > 0) {
+                currentPasscode = currentPasscode.slice(0, -1);
+                playKeypadTap();
+                updateDots();
+            }
+        }
+
+        function handleClear() {
+            if (currentPasscode.length > 0) {
+                currentPasscode = '';
+                playKeypadTap();
+                updateDots();
+            }
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('#indicator-dots .p-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('error', 'success');
+                if (index < currentPasscode.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+
+        function validatePasscode() {
+            const dots = document.querySelectorAll('#indicator-dots .p-dot');
+            const lockAnim = document.getElementById('heart-lock-anim');
+            const centerWrap = document.getElementById('vintage-lock-center');
+            const targetPasscode = (keypad && keypad.getAttribute('data-passcode')) || '0710';
+
+            if (currentPasscode === targetPasscode) {
+                playUnlockSound();
+                dots.forEach(dot => {
+                    dot.classList.remove('error');
+                    dot.classList.add('success');
+                });
+                if (lockAnim) lockAnim.classList.add('unlocked');
+
+                setTimeout(() => {
+                    transitionScreen('lock', 'dance');
+                }, 550);
+            } else {
+                playErrorSound();
+                dots.forEach(dot => {
+                    dot.classList.remove('success');
+                    dot.classList.add('error');
+                });
+                if (centerWrap) centerWrap.classList.add('shake');
+
+                setTimeout(() => {
+                    dots.forEach(dot => {
+                        dot.classList.remove('error', 'filled');
+                    });
+                    if (centerWrap) centerWrap.classList.remove('shake');
+                    currentPasscode = '';
+                    updateDots();
+                }, 550);
+            }
+        }
+
+        function transitionScreen(from, to) {
+            if (screens[from]) screens[from].classList.remove('active');
+
+            if (to === 'cake') {
+                document.body.style.background = "radial-gradient(circle at 50% 40%, #1e40af 0%, #172554 60%, #091a36 100%)";
+            } else if (to === 'dance') {
+                document.body.style.background = "url('./assets/bg2.jpg') no-repeat center center / cover";
+            } else if (to === 'surprise') {
+                document.body.style.background = "url('./assets/bg3.jpg') no-repeat center center / cover";
+            } else if (to === 'gifts' || to === 'celebration') {
+                document.body.style.background = 'var(--bg-surprise)';
+            } else if (to === 'scrapbook') {
+                document.body.style.background = "#fbf5ef radial-gradient(circle at 50% 25%, #fffaf5 0%, #faeee3 55%, #f2dfce 100%)";
+            } else if (to === 'lock') {
+                document.body.style.background = "#fbf9f5 url('./assets/bg.jpeg') no-repeat center center / cover";
+            } else {
+                document.body.style.background = 'var(--bg-lock)';
+            }
+
+            setTimeout(() => {
+                if (screens[to]) screens[to].classList.add('active');
+                if (to === 'celebration') {
+                    playCelebrationAnimation();
+                } else if (to === 'scrapbook') {
+                    playScrapbookEntrance();
+                }
+            }, 220);
+        }
+
+        function playScrapbookEntrance() {
+            gsap.fromTo('.scrapbook-item',
+                { opacity: 0, y: 35, scale: 0.9 },
+                { opacity: 1, y: 0, scale: 1, stagger: 0.1, duration: 0.7, ease: "back.out(1.4)" }
+            );
+        }
+
+        /* ==========================================================================
+           INTERACTIVE SURPRISE BUTTON IMPLEMENTATIONS (PAGE 2)
+           ========================================================================== */
+        function dodgeNoButton() {
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            const buttonWidth = noBtn.offsetWidth || 100;
+            const buttonHeight = noBtn.offsetHeight || 45;
+
+            const randomX = Math.random() * (containerWidth - buttonWidth - 40) + 20;
+            const randomY = Math.random() * (containerHeight - buttonHeight - 40) + 20;
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        }
+
+        noBtn.addEventListener('mouseenter', () => {
+            if (noScale > 0.1) {
+                dodgeNoButton();
+                triggerPlayfulReactions();
+            }
+        });
+
+        noBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            playTone(220, 0.1, 'sine', 0.15);
+
+            noClickCount++;
+            noScale -= 0.18;
+            yesScale += 0.22;
+
+            if (noScale <= 0.15) {
+                noBtn.style.display = 'none';
+            } else {
+                noBtn.style.transform = `scale(${noScale})`;
+                dodgeNoButton();
+            }
+
+            yesBtn.style.transform = `scale(${yesScale})`;
+            triggerPlayfulReactions();
+        });
+
+        function triggerPlayfulReactions() {
+            const randomMsgIndex = Math.floor(Math.random() * PLEADING_MESSAGES.length);
+            pleadBubble.textContent = PLEADING_MESSAGES[randomMsgIndex];
+            pleadBubble.classList.add('show');
+
+            const gifElem = document.getElementById('surprise-gif');
+            gifElem.src = "./assets/peachcat-cat.gif";
+
+            if (reactionTimeout) {
+                clearTimeout(reactionTimeout);
+            }
+
+            reactionTimeout = setTimeout(() => {
+                pleadBubble.classList.remove('show');
+                if (!gifElem.src.includes("love-you-kiss.gif")) {
+                    gifElem.src = "./assets/cat-love.gif";
+                }
+            }, 5500);
+        }
+
+        yesBtn.addEventListener('click', () => {
+            const gifElem = document.getElementById('surprise-gif');
+            gifElem.src = "./assets/love-you-kiss.gif";
+
+            playSuccessMelody();
+
+            const duration = 3.5 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 4,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0, y: 0.8 },
+                    colors: ['#217bc5', '#ff6b81', '#ffe066']
+                });
+                confetti({
+                    particleCount: 4,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1, y: 0.8 },
+                    colors: ['#217bc5', '#ff6b81', '#ffe066']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+
+            confetti({
+                particleCount: 80,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff4757', '#ff6b81', '#ffb3ba']
+            });
+
+            setTimeout(() => {
+                transitionScreen('surprise', 'gifts');
+            }, 1000);
+        });
+
+        function checkAllGiftsUnlocked() {
+            if (openedGiftsSet.size >= 3) {
+                const unlockedCard = document.getElementById('all-gifts-unlocked-card');
+                if (unlockedCard && unlockedCard.style.display !== 'flex') {
+                    unlockedCard.style.display = 'flex';
+                    confetti({
+                        particleCount: 60,
+                        spread: 75,
+                        origin: { y: 0.7 },
+                        colors: ['#f59e0b', '#ec4899', '#3b82f6', '#10b981']
+                    });
+                }
+            }
+        }
+
+        function openGift(element, type = 'cake') {
+            openedGiftsSet.add(type);
+            checkAllGiftsUnlocked();
+
+            const isAlreadyOpen = element.classList.contains('open');
+
+            if (isAlreadyOpen) {
+                if (type === 'cake') {
+                    transitionScreen('gifts', 'cake');
+                } else if (type === 'celebration') {
+                    transitionScreen('gifts', 'celebration');
+                } else if (type === 'envelope') {
+                    playTone(987.77, 0.4, 'sine', 0.2);
+                    setTimeout(() => playTone(1318.51, 0.6, 'sine', 0.25), 150);
+                    letterOverlay.classList.add('active');
+                }
+                return;
+            }
+
+            playTone(880, 0.15, 'sine', 0.2);
+            setTimeout(() => playTone(1318.51, 0.35, 'sine', 0.15), 60);
+
+            element.classList.add('open');
+            const img = element.querySelector('img');
+            if (img) {
+                img.src = './assets/gift-open.png';
+            }
+
+            const rect = element.getBoundingClientRect();
+            const xVal = (rect.left + rect.width / 2) / window.innerWidth;
+            const yVal = (rect.top + rect.height / 2) / window.innerHeight;
+
+            confetti({
+                particleCount: 40,
+                spread: 50,
+                origin: { x: xVal, y: yVal },
+                colors: ['#ffe066', '#ff6b81', '#ffffff']
+            });
+
+            setTimeout(() => {
+                if (type === 'cake') {
+                    transitionScreen('gifts', 'cake');
+                } else if (type === 'celebration') {
+                    transitionScreen('gifts', 'celebration');
+                } else if (type === 'envelope') {
+                    playTone(987.77, 0.3, 'sine', 0.2);
+                    setTimeout(() => playTone(1318.51, 0.4, 'sine', 0.25), 100);
+                    letterOverlay.classList.add('active');
+                }
+            }, 320);
+        }
+
+        if (btnOpenScrapbook) {
+            btnOpenScrapbook.addEventListener('click', () => {
+                playSuccessMelody();
+                confetti({
+                    particleCount: 90,
+                    spread: 80,
+                    origin: { y: 0.5 },
+                    colors: ['#ec4899', '#8b5cf6', '#3b82f6', '#fbbf24']
+                });
+                transitionScreen('gifts', 'scrapbook');
+            });
+        }
+
+        if (scrapbookBackBtn) {
+            scrapbookBackBtn.addEventListener('click', () => {
+                playTone(500, 0.1, 'sine', 0.15);
+                transitionScreen('scrapbook', 'gifts');
+            });
+        }
+
+        function blowCandles() {
+            if (areCandlesBlown) return;
+            areCandlesBlown = true;
+
+            try {
+                playTone(320, 0.25, 'sine', 0.18);
+                setTimeout(() => playTone(659.25, 0.35, 'sine', 0.2), 120);
+                setTimeout(() => playTone(880.00, 0.45, 'triangle', 0.25), 200);
+            } catch (e) { }
+
+            if (candleVelas) {
+                candleVelas.classList.add('extinguished');
+            }
+
+            confetti({
+                particleCount: 90,
+                spread: 75,
+                origin: { x: 0.5, y: 0.45 },
+                colors: ['#3b82f6', '#60a5fa', '#93c5fd', '#f0e4d0', '#ffd166', '#ffffff']
+            });
+
+            if (blowCandlesBtn) blowCandlesBtn.style.display = 'none';
+            if (cakeReplayBtn) cakeReplayBtn.style.display = 'inline-flex';
+            if (cakeNextBtn) cakeNextBtn.style.display = 'inline-flex';
+        }
+
+        if (blowCandlesBtn) {
+            blowCandlesBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                blowCandles();
+            });
+        }
+
+        if (candleVelas) {
+            candleVelas.addEventListener('click', (e) => {
+                e.stopPropagation();
+                blowCandles();
+            });
+        }
+        if (cakeArena) {
+            cakeArena.addEventListener('click', (e) => {
+                if (!areCandlesBlown) {
+                    blowCandles();
+                }
+            });
+        }
+
+        function resetCakeScreen() {
+            areCandlesBlown = false;
+            if (candleVelas) {
+                candleVelas.classList.remove('extinguished');
+            }
+
+            if (blowCandlesBtn) blowCandlesBtn.style.display = 'inline-flex';
+            if (cakeReplayBtn) cakeReplayBtn.style.display = 'none';
+            if (cakeNextBtn) cakeNextBtn.style.display = 'none';
+        }
+
+        if (cakeReplayBtn) {
+            cakeReplayBtn.addEventListener('click', () => {
+                playTone(700, 0.1, 'sine', 0.15);
+                resetCakeScreen();
+            });
+        }
+
+        if (cakeNextBtn) {
+            cakeNextBtn.addEventListener('click', () => {
+                playTone(600, 0.1, 'sine', 0.15);
+                transitionScreen('cake', 'gifts');
+                setTimeout(resetCakeScreen, 500);
+            });
+        }
+
+        if (cakeBackBtn) {
+            cakeBackBtn.addEventListener('click', () => {
+                playTone(500, 0.1, 'sine', 0.12);
+                transitionScreen('cake', 'gifts');
+                setTimeout(resetCakeScreen, 500);
+            });
+        }
+
+        document.getElementById('celebration-back-button').addEventListener('click', () => {
+            playTone(600, 0.1, 'sine', 0.15);
+            transitionScreen('celebration', 'gifts');
+        });
+
+        /* ==========================================================================
+           SCRATCH CARD INTERACTION FOR CELEBRATION POLAROIDS (SCREEN 3)
+           ========================================================================== */
+        let scratchedCardsCount = 0;
+
+        function initScratchCards() {
+            scratchedCardsCount = 0;
+            const canvasIds = ['scratch-canvas-1', 'scratch-canvas-2', 'scratch-canvas-3'];
+
+            canvasIds.forEach((id) => {
+                const canvas = document.getElementById(id);
+                if (!canvas) return;
+
+                const parent = canvas.parentElement;
+                const width = parent.offsetWidth || 220;
+                const height = parent.offsetHeight || 220;
+
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+
+                const ctx = canvas.getContext('2d');
+                ctx.scale(dpr, dpr);
+
+                const grad = ctx.createLinearGradient(0, 0, width, height);
+                grad.addColorStop(0, '#3b70a8');
+                grad.addColorStop(0.3, '#79b2f2');
+                grad.addColorStop(0.7, '#4f8cd1');
+                grad.addColorStop(1, '#2c598f');
+
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, width, height);
+
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+                for (let i = 0; i < 22; i++) {
+                    const x = (i * 43) % width;
+                    const y = (i * 67) % height;
+                    const r = (i % 3) + 1;
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 15px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+                ctx.shadowBlur = 4;
+                ctx.fillText('✨ SCRATCH ME ✨', width / 2, height / 2 - 8);
+
+                ctx.font = '12px "Fredoka", sans-serif';
+                ctx.fillStyle = '#dbeafe';
+                ctx.fillText('reveal her 💕', width / 2, height / 2 + 12);
+                ctx.shadowBlur = 0;
+
+                canvas.classList.remove('revealed');
+                let isDrawing = false;
+                let isScratchedComplete = false;
+
+                function scratchAt(clientX, clientY) {
+                    if (isScratchedComplete) return;
+                    const cRect = canvas.getBoundingClientRect();
+                    const x = clientX - cRect.left;
+                    const y = clientY - cRect.top;
+
+                    ctx.globalCompositeOperation = 'destination-out';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 24, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    if (Math.random() < 0.25) {
+                        playTone(950 + Math.random() * 300, 0.04, 'sine', 0.04);
+                    }
+                }
+
+                function checkScratchPercent() {
+                    if (isScratchedComplete) return;
+                    try {
+                        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        let transparentPixels = 0;
+                        const totalSampled = imgData.data.length / 32;
+
+                        for (let p = 3; p < imgData.data.length; p += 32) {
+                            if (imgData.data[p] < 128) {
+                                transparentPixels++;
+                            }
+                        }
+
+                        const percent = (transparentPixels / totalSampled) * 100;
+                        if (percent > 30) {
+                            isScratchedComplete = true;
+                            canvas.classList.add('revealed');
+                            scratchedCardsCount++;
+
+                            playTone(783.99, 0.15, 'sine', 0.2);
+                            setTimeout(() => playTone(1046.50, 0.3, 'sine', 0.25), 100);
+
+                            const pRect = canvas.getBoundingClientRect();
+                            confetti({
+                                particleCount: 35,
+                                spread: 60,
+                                origin: {
+                                    x: (pRect.left + pRect.width / 2) / window.innerWidth,
+                                    y: (pRect.top + pRect.height / 2) / window.innerHeight
+                                },
+                                colors: ['#60a5fa', '#93c5fd', '#ffffff', '#ffd700']
+                            });
+
+                            if (scratchedCardsCount >= 3) {
+                                setTimeout(() => {
+                                    confetti({
+                                        particleCount: 150,
+                                        spread: 95,
+                                        origin: { y: 0.5 },
+                                        colors: ['#3b82f6', '#f59e0b', '#ec4899', '#ffffff', '#ffd700']
+                                    });
+                                }, 300);
+                            }
+                        }
+                    } catch (e) { }
+                }
+
+                canvas.addEventListener('mousedown', (e) => {
+                    isDrawing = true;
+                    scratchAt(e.clientX, e.clientY);
+                });
+                window.addEventListener('mousemove', (e) => {
+                    if (isDrawing) {
+                        scratchAt(e.clientX, e.clientY);
+                    }
+                });
+                window.addEventListener('mouseup', () => {
+                    if (isDrawing) {
+                        isDrawing = false;
+                        checkScratchPercent();
+                    }
+                });
+
+                canvas.addEventListener('touchstart', (e) => {
+                    if (e.touches && e.touches[0]) {
+                        isDrawing = true;
+                        scratchAt(e.touches[0].clientX, e.touches[0].clientY);
+                    }
+                }, { passive: true });
+
+                canvas.addEventListener('touchmove', (e) => {
+                    if (isDrawing && e.touches && e.touches[0]) {
+                        scratchAt(e.touches[0].clientX, e.touches[0].clientY);
+                    }
+                }, { passive: true });
+
+                canvas.addEventListener('touchend', () => {
+                    if (isDrawing) {
+                        isDrawing = false;
+                        checkScratchPercent();
+                    }
+                });
+            });
+        }
+
+        /* ==========================================================================
+           LOVE LETTER OPEN/CLOSE & SCRAPBOOK LOGIC (GIFT 3)
+           ========================================================================== */
+        const loveLetterModal = document.getElementById('love-letter-modal');
+        const closeLetterModalBtn = document.getElementById('close-letter-modal-btn');
+
+        function openLoveLetter() {
+            if (!loveLetterModal) return;
+
+            playTone(523.25, 0.12, 'triangle', 0.2);
+            setTimeout(() => playTone(659.25, 0.15, 'sine', 0.2), 90);
+            setTimeout(() => playTone(783.99, 0.2, 'sine', 0.25), 180);
+            setTimeout(() => playTone(1046.50, 0.35, 'sine', 0.3), 270);
+
+            loveLetterModal.classList.add('active');
+
+            confetti({
+                particleCount: 50,
+                spread: 70,
+                origin: { y: 0.45 },
+                colors: ['#ff4757', '#ff6b81', '#60a5fa', '#ffd166', '#ffffff']
+            });
+        }
+
+        function closeLoveLetter() {
+            if (!loveLetterModal) return;
+            playTone(440, 0.1, 'sine', 0.15);
+            loveLetterModal.classList.remove('active');
+        }
+
+        if (envelopeWrapper) {
+            envelopeWrapper.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openLoveLetter();
+            });
+        }
+
+        if (closeLetterModalBtn) {
+            closeLetterModalBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeLoveLetter();
+            });
+        }
+
+        if (loveLetterModal) {
+            loveLetterModal.addEventListener('click', (e) => {
+                if (e.target === loveLetterModal) {
+                    closeLoveLetter();
+                }
+            });
+        }
+
+        closeEnvelopeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeLoveLetter();
+            setTimeout(() => {
+                letterOverlay.classList.remove('active');
+            }, 100);
+        });
+
+        window.popHeartConfetti = function (e, elem) {
+            e.stopPropagation();
+
+            playTone(523.25, 0.08, 'sine', 0.15);
+            setTimeout(() => playTone(659.25, 0.08, 'sine', 0.15), 60);
+            setTimeout(() => playTone(783.99, 0.15, 'sine', 0.2), 120);
+
+            const rect = elem.getBoundingClientRect();
+            const xVal = (rect.left + rect.width / 2) / window.innerWidth;
+            const yVal = (rect.top + rect.height / 2) / window.innerHeight;
+
+            confetti({
+                particleCount: 18,
+                spread: 40,
+                origin: { x: xVal, y: yVal },
+                colors: ['#ff4757', '#ff6b81', '#ffffff']
+            });
+
+            gsap.fromTo(elem,
+                { scale: 1.15 },
+                { scale: 1.05, duration: 0.4, ease: "elastic.out(1.2, 0.4)" }
+            );
+        };
+
+        /* ==========================================================================
+           10. AUDIO & VINYL MUSIC CONTROLLER (SPOTIFY + FULLSCREEN LOUNGE)
+           ========================================================================== */
+        let globalAudio = new Audio();
+        globalAudio.crossOrigin = "anonymous";
+        let isAudioPlaying = false;
+        let isAudioInitialized = false;
+        let synthInterval = null;
+
+        function setAudioPlayingState(playing) {
+            isAudioPlaying = playing;
+            const playIcon = document.getElementById('spotify-play-icon');
+            const modalPlayIcon = document.getElementById('modal-play-icon');
+            const spotifyCard = document.getElementById('scrapbook-spotify-card');
+            const modalDisk = document.getElementById('modal-vinyl-disk');
+            const floatingVinyl = document.getElementById('scrapbook-floating-vinyl');
+            const quickBtn = document.getElementById('scrapbook-quick-music-btn');
+            const quickText = document.getElementById('quick-music-text');
+
+            if (playing) {
+                if (playIcon) playIcon.className = "fa-solid fa-pause";
+                if (modalPlayIcon) modalPlayIcon.className = "fa-solid fa-pause";
+                if (spotifyCard) spotifyCard.classList.add('is-playing');
+                if (modalDisk) modalDisk.classList.add('spinning');
+                if (floatingVinyl) floatingVinyl.classList.add('spinning');
+                if (quickBtn) quickBtn.classList.add('playing');
+                if (quickText) quickText.textContent = "PAUSE MUSIC";
+            } else {
+                if (playIcon) playIcon.className = "fa-solid fa-play";
+                if (modalPlayIcon) modalPlayIcon.className = "fa-solid fa-play";
+                if (spotifyCard) spotifyCard.classList.remove('is-playing');
+                if (modalDisk) modalDisk.classList.remove('spinning');
+                if (floatingVinyl) floatingVinyl.classList.remove('spinning');
+                if (quickBtn) quickBtn.classList.remove('playing');
+                if (quickText) quickText.textContent = "PLAY MUSIC";
+            }
+        }
+
+        function synthesizeRomanticMelody() {
+            const melody = [
+                { f: 523.25, d: 0.35 }, { f: 659.25, d: 0.35 }, { f: 783.99, d: 0.4 }, { f: 659.25, d: 0.3 },
+                { f: 587.33, d: 0.35 }, { f: 698.46, d: 0.35 }, { f: 880.00, d: 0.45 }, { f: 783.99, d: 0.35 },
+                { f: 659.25, d: 0.4 }, { f: 783.99, d: 0.4 }, { f: 1046.50, d: 0.6 }, { f: 880.00, d: 0.4 }
+            ];
+            let idx = 0;
+            if (synthInterval) clearInterval(synthInterval);
+            synthInterval = setInterval(() => {
+                if (!isAudioPlaying) return;
+                const note = melody[idx % melody.length];
+                playTone(note.f, note.d, 'triangle', 0.12);
+                idx++;
+            }, 380);
+        }
+
+        function stopSynthesizer() {
+            if (synthInterval) {
+                clearInterval(synthInterval);
+                synthInterval = null;
+            }
+        }
+
+        function initGlobalAudio() {
+            if (isAudioInitialized) return;
+            isAudioInitialized = true;
+
+            const cfg = window.SCRAPBOOK_CONFIG.music;
+            globalAudio.src = cfg.audioSrc;
+
+            globalAudio.addEventListener('timeupdate', () => {
+                if (!globalAudio.duration) return;
+                const cur = globalAudio.currentTime;
+                const dur = globalAudio.duration;
+                const pct = (cur / dur) * 100;
+
+                const curFormatted = formatAudioTime(cur);
+                const durFormatted = formatAudioTime(dur);
+
+                const spotCur = document.getElementById('spotify-cur-time');
+                const spotDur = document.getElementById('spotify-dur-time');
+                const spotFill = document.getElementById('spotify-progress-fill');
+                if (spotCur) spotCur.textContent = curFormatted;
+                if (spotDur) spotDur.textContent = durFormatted;
+                if (spotFill) spotFill.style.width = `${pct}%`;
+
+                const modalCur = document.getElementById('modal-cur-time');
+                const modalDur = document.getElementById('modal-dur-time');
+                const modalSlider = document.getElementById('modal-music-slider');
+                if (modalCur) modalCur.textContent = curFormatted;
+                if (modalDur) modalDur.textContent = durFormatted;
+                if (modalSlider && !modalSlider.matches(':active')) modalSlider.value = pct;
+            });
+
+            globalAudio.addEventListener('ended', () => {
+                setAudioPlayingState(false);
+            });
+
+            globalAudio.addEventListener('error', () => {
+                if (globalAudio.src !== cfg.fallbackAudioSrc) {
+                    globalAudio.src = cfg.fallbackAudioSrc;
+                    globalAudio.play().catch(() => {
+                        synthesizeRomanticMelody();
+                    });
+                } else {
+                    synthesizeRomanticMelody();
+                }
+            });
+        }
+
+        function formatAudioTime(sec) {
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        window.toggleMusicPlay = function () {
+            initGlobalAudio();
+            if (isAudioPlaying) {
+                globalAudio.pause();
+                stopSynthesizer();
+                setAudioPlayingState(false);
+            } else {
+                const promise = globalAudio.play();
+                if (promise !== undefined) {
+                    promise.then(() => {
+                        setAudioPlayingState(true);
+                    }).catch(err => {
+                        console.log("Using synth melody fallback", err);
+                        synthesizeRomanticMelody();
+                        setAudioPlayingState(true);
+                    });
+                }
+            }
+        };
+
+        window.handleCardPlayClick = function (e) {
+            e.stopPropagation();
+            toggleMusicPlay();
+        };
+
+        window.restartMusic = function () {
+            if (globalAudio) {
+                globalAudio.currentTime = 0;
+                globalAudio.play().catch(synthesizeRomanticMelody);
+                setAudioPlayingState(true);
+            }
+        };
+
+        window.handleSeek = function (val) {
+            if (globalAudio && globalAudio.duration) {
+                globalAudio.currentTime = (val / 100) * globalAudio.duration;
+            }
+        };
+
+        window.openSpotifyLink = function () {
+            const url = window.SCRAPBOOK_CONFIG.music.spotifyTrackUrl || 'https://open.spotify.com';
+            window.open(url, '_blank');
+        };
+
+        if (quickMusicBtn) {
+            quickMusicBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMusicPlay();
+            });
+        }
+
+        /* ==========================================================================
+           11. CUTE INTERACTIVE STICKERS (KISSES, CAMERA FLASH, GUITAR STRUM)
+           ========================================================================== */
+        window.triggerKissInteraction = function (elem) {
+            // Sweet Kiss Sound Chime
+            try {
+                const ctx = getAudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(700, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1300, ctx.currentTime + 0.08);
+                osc.frequency.exponentialRampToValueAtTime(450, ctx.currentTime + 0.16);
+                gain.gain.setValueAtTime(0.22, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.16);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.16);
+            } catch (e) { }
+
+            // Bouncy Pop Animation
+            gsap.fromTo(elem,
+                { scale: 1.4, rotation: "+=15" },
+                { scale: 1, duration: 0.5, ease: "elastic.out(1.3, 0.4)" }
+            );
+
+            // Flying Lip Kisses & Heart Confetti
+            const rect = elem.getBoundingClientRect();
+            const xVal = (rect.left + rect.width / 2) / window.innerWidth;
+            const yVal = (rect.top + rect.height / 2) / window.innerHeight;
+
+            confetti({
+                particleCount: 22,
+                spread: 55,
+                origin: { x: xVal, y: yVal },
+                colors: ['#ec4899', '#f43f5e', '#ff2a70', '#ffffff', '#ffd166'],
+                shapes: ['circle']
+            });
+        };
+
+        window.triggerCameraInteraction = function (elem) {
+            // Shutter click sound
+            playTone(1800, 0.04, 'square', 0.18);
+            setTimeout(() => playTone(500, 0.08, 'sawtooth', 0.14), 45);
+            setTimeout(() => playTone(1400, 0.05, 'square', 0.16), 100);
+
+            // Screen white photo flash
+            const flash = document.createElement('div');
+            flash.className = 'camera-screen-flash';
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 380);
+
+            // Camera wobble
+            gsap.fromTo(elem,
+                { scale: 1.3, rotation: -18 },
+                { scale: 1, rotation: -10, duration: 0.4, ease: "back.out(2)" }
+            );
+
+            // Sparkle confetti
+            confetti({
+                particleCount: 30,
+                spread: 60,
+                origin: { y: 0.35 },
+                colors: ['#ffffff', '#ffd166', '#93c5fd', '#f472b6']
+            });
+        };
+
+        window.triggerGuitarInteraction = function (elem) {
+            // Acoustic guitar chord strum arpeggio
+            const freqs = [164.81, 220.00, 293.66, 392.00, 493.88, 659.25];
+            freqs.forEach((freq, idx) => {
+                setTimeout(() => {
+                    playTone(freq, 0.5, 'triangle', 0.14);
+                }, idx * 45);
+            });
+
+            // Guitar strum vibration
+            gsap.fromTo(elem,
+                { scale: 1.3, rotation: -35 },
+                { scale: 1, rotation: -25, duration: 0.5, ease: "elastic.out(1.2, 0.3)" }
+            );
+
+            // Floating music notes
+            confetti({
+                particleCount: 15,
+                spread: 45,
+                origin: { y: 0.3 },
+                colors: ['#fbbf24', '#a855f7', '#3b82f6', '#ec4899']
+            });
+        };
+
+        window.triggerFlowerInteraction = function (elem) {
+            // Sweet chime
+            playTone(880.00, 0.2, 'sine', 0.15);
+            setTimeout(() => playTone(1174.66, 0.3, 'sine', 0.18), 80);
+
+            // Flower wobble
+            gsap.fromTo(elem,
+                { scale: 1.35, rotation: "+=25" },
+                { scale: 1, duration: 0.5, ease: "elastic.out(1.3, 0.4)" }
+            );
+
+            // Petals and sparkles confetti
+            const rect = elem.getBoundingClientRect();
+            const xVal = (rect.left + rect.width / 2) / window.innerWidth;
+            const yVal = (rect.top + rect.height / 2) / window.innerHeight;
+
+            confetti({
+                particleCount: 25,
+                spread: 60,
+                origin: { x: xVal, y: yVal },
+                colors: ['#f472b6', '#fbcfe8', '#fb7185', '#ffffff', '#fed7aa']
+            });
+        };
+
+        /* ==========================================================================
+           12. FULLSCREEN FOCUS MODALS MANAGEMENT
+           ========================================================================== */
+        let currentScratchIndex = 0;
+        let bigScratchCanvasCtx = null;
+        let isBigScratchComplete = false;
+
+        function closeAllModals() {
+            document.querySelectorAll('.scrapbook-focus-modal').forEach(m => m.classList.remove('active'));
+        }
+
+        // Close on backdrop click
+        document.querySelectorAll('.scrapbook-focus-modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeAllModals();
+                }
+            });
+        });
+
+        // 1. Scratch Polaroid Modal
+        window.openScratchModal = function (photoId) {
+            currentScratchIndex = (photoId - 1) % window.SCRAPBOOK_CONFIG.scratchCards.length;
+            const modal = document.getElementById('modal-scratch-focus');
+            if (!modal) return;
+
+            loadScratchCard(currentScratchIndex);
+            modal.classList.add('active');
+            playTone(659.25, 0.15, 'sine', 0.18);
+        };
+
+        window.closeScratchModal = function () {
+            const modal = document.getElementById('modal-scratch-focus');
+            if (modal) modal.classList.remove('active');
+        };
+
+        function loadScratchCard(index) {
+            const cardData = window.SCRAPBOOK_CONFIG.scratchCards[index];
+            const img = document.getElementById('big-scratch-img');
+            const caption = document.getElementById('big-scratch-caption');
+            const progress = document.getElementById('big-scratch-progress');
+
+            if (img) img.src = cardData.image;
+            if (caption) caption.textContent = cardData.caption;
+            if (progress) progress.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles" style="color: #f59e0b;"></i> Scratch with your finger or mouse! (0%)`;
+
+            setTimeout(initBigScratchCanvas, 80);
+        }
+
+        function initBigScratchCanvas() {
+            const canvas = document.getElementById('big-scratch-canvas');
+            if (!canvas) return;
+            const parent = canvas.parentElement;
+            const w = parent.offsetWidth || 340;
+            const h = parent.offsetHeight || 340;
+
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = w * dpr;
+            canvas.height = h * dpr;
+            canvas.style.width = w + 'px';
+            canvas.style.height = h + 'px';
+
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+            bigScratchCanvasCtx = ctx;
+
+            // Metallic Rose-Gold Gradient
+            const grad = ctx.createLinearGradient(0, 0, w, h);
+            grad.addColorStop(0, '#be7b7b');
+            grad.addColorStop(0.25, '#d99f9f');
+            grad.addColorStop(0.5, '#ebd1d1');
+            grad.addColorStop(0.75, '#c78484');
+            grad.addColorStop(1, '#a86565');
+
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Shimmer sparkles
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            for (let i = 0; i < 30; i++) {
+                const x = (i * 47) % w;
+                const y = (i * 71) % h;
+                ctx.beginPath();
+                ctx.arc(x, y, (i % 3) + 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 22px "Pacifico", cursive';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+            ctx.shadowBlur = 6;
+            ctx.fillText('✨ Scratch me ✨', w / 2, h / 2 - 10);
+
+            ctx.font = '14px "Fredoka", sans-serif';
+            ctx.fillStyle = '#fff0f0';
+            ctx.fillText('rub to reveal secret memory 💕', w / 2, h / 2 + 20);
+            ctx.shadowBlur = 0;
+
+            canvas.classList.remove('revealed');
+            isBigScratchComplete = false;
+
+            let isDrawing = false;
+
+            function scratch(clientX, clientY) {
+                if (isBigScratchComplete) return;
+                const rect = canvas.getBoundingClientRect();
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.arc(x, y, 32, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (Math.random() < 0.2) {
+                    playTone(1000 + Math.random() * 400, 0.04, 'sine', 0.04);
+                }
+            }
+
+            function checkPercent() {
+                if (isBigScratchComplete) return;
+                try {
+                    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    let cleared = 0;
+                    const totalSampled = imgData.data.length / 32;
+
+                    for (let p = 3; p < imgData.data.length; p += 32) {
+                        if (imgData.data[p] < 128) cleared++;
+                    }
+
+                    const pct = Math.min(100, Math.round((cleared / totalSampled) * 100));
+                    const progress = document.getElementById('big-scratch-progress');
+                    if (progress) {
+                        progress.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles" style="color: #f59e0b;"></i> Scratched: ${pct}%`;
+                    }
+
+                    if (pct > 32) {
+                        isBigScratchComplete = true;
+                        canvas.classList.add('revealed');
+                        if (progress) progress.innerHTML = `🎉 Revealed! Forever a beautiful memory 💕`;
+
+                        // Mark card in stack as revealed too
+                        const stackOverlay = document.getElementById(`stack-overlay-${currentScratchIndex + 1}`);
+                        if (stackOverlay) stackOverlay.parentElement.parentElement.classList.add('revealed');
+
+                        playTone(783.99, 0.2, 'sine', 0.2);
+                        setTimeout(() => playTone(1046.50, 0.35, 'sine', 0.25), 100);
+
+                        confetti({
+                            particleCount: 70,
+                            spread: 80,
+                            origin: { y: 0.5 },
+                            colors: ['#ec4899', '#f43f5e', '#fbbf24', '#ffffff']
+                        });
+                    }
+                } catch (e) { }
+            }
+
+            canvas.onmousedown = (e) => { isDrawing = true; scratch(e.clientX, e.clientY); };
+            window.onmousemove = (e) => { if (isDrawing) scratch(e.clientX, e.clientY); };
+            window.onmouseup = () => { if (isDrawing) { isDrawing = false; checkPercent(); } };
+
+            canvas.ontouchstart = (e) => {
+                if (e.touches && e.touches[0]) {
+                    isDrawing = true;
+                    scratch(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            };
+            canvas.ontouchmove = (e) => {
+                if (isDrawing && e.touches && e.touches[0]) {
+                    scratch(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            };
+            canvas.ontouchend = () => {
+                if (isDrawing) {
+                    isDrawing = false;
+                    checkPercent();
+                }
+            };
+        }
+
+        window.nextScratchPhoto = function () {
+            currentScratchIndex = (currentScratchIndex + 1) % window.SCRAPBOOK_CONFIG.scratchCards.length;
+            loadScratchCard(currentScratchIndex);
+        };
+
+        window.prevScratchPhoto = function () {
+            currentScratchIndex = (currentScratchIndex - 1 + window.SCRAPBOOK_CONFIG.scratchCards.length) % window.SCRAPBOOK_CONFIG.scratchCards.length;
+            loadScratchCard(currentScratchIndex);
+        };
+
+        window.resetCurrentScratch = function () {
+            loadScratchCard(currentScratchIndex);
+        };
+
+        // 2. Fullscreen Music Modal
+        window.openMusicModal = function (e) {
+            if (e) e.stopPropagation();
+            const modal = document.getElementById('modal-music-focus');
+            if (!modal) return;
+
+            const cfg = window.SCRAPBOOK_CONFIG.music;
+            const title = document.getElementById('modal-track-name');
+            const artist = document.getElementById('modal-artist-name');
+            const cover = document.getElementById('modal-vinyl-cover');
+
+            if (title) title.textContent = cfg.title;
+            if (artist) artist.textContent = cfg.artist;
+            if (cover) cover.src = cfg.coverSrc;
+
+            modal.classList.add('active');
+            playTone(783.99, 0.15, 'sine', 0.15);
+
+            // Auto-start music if not playing yet
+            if (!isAudioPlaying) {
+                toggleMusicPlay();
+            }
+        };
+
+        window.closeMusicModal = function () {
+            const modal = document.getElementById('modal-music-focus');
+            if (modal) modal.classList.remove('active');
+        };
+
+        // 3. Fullscreen Memory Map Modal
+        window.openMapModal = function () {
+            const modal = document.getElementById('modal-map-focus');
+            const title = document.getElementById('modal-map-title');
+            const sub = document.getElementById('modal-map-sub');
+            const img = document.getElementById('modal-map-big-img');
+            const cfg = window.SCRAPBOOK_CONFIG.memoryMap;
+
+            if (title && cfg) title.innerHTML = `${cfg.title} 📍`;
+            if (sub && cfg) sub.textContent = cfg.subtitle;
+            if (img && cfg) img.src = cfg.mapImageSrc;
+
+            if (modal) modal.classList.add('active');
+            playTone(659.25, 0.15, 'sine', 0.15);
+        };
+
+        window.closeMapModal = function () {
+            const modal = document.getElementById('modal-map-focus');
+            if (modal) modal.classList.remove('active');
+        };
+
+        /* ==========================================================================
+           13. AUTO-SYNC TEMPLATE CONFIG TO UI (EASY TEMPLATE CUSTOMIZATION)
+           ========================================================================== */
+        window.applyScrapbookConfig = function () {
+            const cfg = window.SCRAPBOOK_CONFIG;
+            if (!cfg) return;
+
+            // 1. Music & Vinyl Player Elements
+            if (cfg.music) {
+                const spotTitle = document.getElementById('spotify-card-title');
+                const spotArtist = document.getElementById('spotify-card-artist');
+                const spotCover = document.getElementById('spotify-card-cover');
+                const modalTitle = document.getElementById('modal-track-name');
+                const modalArtist = document.getElementById('modal-artist-name');
+                const modalCover = document.getElementById('modal-vinyl-cover');
+
+                if (spotTitle && cfg.music.title) spotTitle.textContent = cfg.music.title;
+                if (spotArtist && cfg.music.artist) spotArtist.textContent = cfg.music.artist;
+                if (spotCover && cfg.music.coverSrc) spotCover.src = cfg.music.coverSrc;
+                if (modalTitle && cfg.music.title) modalTitle.textContent = cfg.music.title;
+                if (modalArtist && cfg.music.artist) modalArtist.textContent = cfg.music.artist;
+                if (modalCover && cfg.music.coverSrc) modalCover.src = cfg.music.coverSrc;
+
+                // Sync audio source
+                if (globalAudio && !isAudioInitialized) {
+                    globalAudio.src = cfg.music.audioSrc;
+                }
+            }
+
+            // 2. Memory Map Elements
+            if (cfg.memoryMap) {
+                const mapImg = document.querySelector('.map-thumb-img');
+                if (mapImg && cfg.memoryMap.mapImageSrc) mapImg.src = cfg.memoryMap.mapImageSrc;
+            }
+
+            // 3. Scratch Polaroids
+            if (cfg.scratchCards && Array.isArray(cfg.scratchCards)) {
+                cfg.scratchCards.forEach((card) => {
+                    const cardImg = document.querySelector(`.scrapbook-polaroid-card[data-photo-id="${card.id}"] img`);
+                    if (cardImg && card.image) cardImg.src = card.image;
+                });
+            }
+        };
+
+        // Apply config on initial load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', window.applyScrapbookConfig);
+        } else {
+            window.applyScrapbookConfig();
+        }
+    </script>
+
+
+<span id="PING_IFRAME_FORM_DETECTION" style="display: none;"></span></body></html>
